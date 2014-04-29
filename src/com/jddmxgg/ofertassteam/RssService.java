@@ -17,7 +17,7 @@ import android.util.Log;
 public class RssService extends IntentService
 {
 
-	private static final String RSS_LINK = "http://www.pcworld.com/index.rss";
+	private static final String RSS_LINK = "http://steamofertas.com/feed/";
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 
