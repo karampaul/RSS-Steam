@@ -59,9 +59,9 @@ public class RssParser
 				{
 					RssItem item = new RssItem(title, link);
 					items.add(item);
-					title = null;
-					link = null;
 				}
+				title = null;
+				link = null;
 			}
 		}
 		return items;

@@ -2,6 +2,8 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -90,7 +92,10 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		RssAdapter adapter = (RssAdapter) parent.getAdapter();
 		RssItem item = (RssItem) adapter.getItem(position);
 		Uri uri = Uri.parse(item.getLink());
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
+		AlertDialog.Builder ad = new AlertDialog.Builder(parent.getContext());
+		ad.setMessage(item.getLink());
+		ad.show();
+		//		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		//		startActivity(intent);
 	}
 }
