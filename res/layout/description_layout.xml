@@ -31,8 +31,7 @@
 
     <Button
         android:text="@string/go_web"
-        android:textAlignment="center"
-        android:gravity="bottom"
+        android:gravity="center|center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
