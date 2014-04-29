@@ -3,7 +3,6 @@ package com.jddmxgg.ofertassteam;
 import java.util.List;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
