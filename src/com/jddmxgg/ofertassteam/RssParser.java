@@ -90,7 +90,7 @@ public class RssParser
 		parser.require(XmlPullParser.END_TAG, ns, "description");
 		return description;
 	}
-	
+		
 	// For the tags title and link, extract their text values.
 	private String readText(XmlPullParser parser) throws IOException, XmlPullParserException
 	{
