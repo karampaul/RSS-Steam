@@ -3,6 +3,7 @@ package com.jddmxgg.ofertassteam;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,6 +48,7 @@ public class RssAdapter extends BaseAdapter
 			convertView = View.inflate(context, R.layout.rss_item, null);
 			holder = new ViewHolder();
 			holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
+			holder.viewColor = (View) convertView.findViewById(R.id.view_color);
 			convertView.setTag(holder);
 		}
 		else
@@ -54,11 +56,13 @@ public class RssAdapter extends BaseAdapter
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.itemTitle.setText(items.get(position).getTitle());
+		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
 		return convertView;
 	}
 
 	static class ViewHolder
 	{
 		TextView itemTitle;
+		View viewColor;
 	}
 }

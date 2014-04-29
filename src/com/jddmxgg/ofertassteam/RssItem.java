@@ -11,11 +11,13 @@ public class RssItem
 
 	private final String title;
 	private final String link;
+	private final String color;
 
-	public RssItem(String title, String link)
+	public RssItem(String title, String link, String color)
 	{
 		this.title = title;
 		this.link = link;
+		this.color = color;
 	}
 
 	public String getTitle()
@@ -27,4 +29,10 @@ public class RssItem
 	{
 		return link;
 	}
+
+	public String getColor()
+	{
+		return color;
+	}
+
 }
