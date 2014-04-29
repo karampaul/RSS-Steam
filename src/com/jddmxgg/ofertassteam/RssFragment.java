@@ -92,6 +92,7 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		RssAdapter adapter = (RssAdapter) parent.getAdapter();
 		RssItem item = (RssItem) adapter.getItem(position);
 		Uri uri = Uri.parse(item.getLink());
+		Intent i = new Intent(parent.getContext(), MainActivity.class);
 		AlertDialog.Builder ad = new AlertDialog.Builder(parent.getContext());
 		ad.setMessage(item.getLink());
 		ad.show();
