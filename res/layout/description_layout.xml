@@ -2,37 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="#d0d0d0">
-    
-    <TextView
-        android:id="@+id/itemTitle"
+    android:background="#d0d0d0"
+    android:orientation="vertical" >
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:layout_weight="12"
-        android:gravity="center_horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#313131"
-        android:textSize="24sp" />
-    
-    <TextView
-        android:id="@+id/itemDescription"
+        android:layout_weight="12" >
+
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:textColor="#313131"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </ScrollView>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:layout_weight="12"
-        android:gravity="center_horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#313131"
-        android:textSize="14sp" />
+        android:layout_weight="12" >
+
+        <TextView
+            android:id="@+id/itemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#313131"
+            android:textSize="14sp" />
+    </ScrollView>
 
     <Button
-        android:text="@string/go_web"
-        android:gravity="center|center"
+        android:id="@+id/btnGoToPage"
+        style="@style/ButtonText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_purple"
+        android:gravity="center|center"
+        android:text="@string/go_web" />
 
 </LinearLayout>

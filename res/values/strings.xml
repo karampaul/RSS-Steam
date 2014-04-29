@@ -5,6 +5,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="go_web">Ver en la página web</string>
+    <string name="go_web">Click para saber más…</string>
 
 </resources>

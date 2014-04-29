@@ -17,7 +17,7 @@ import android.util.Log;
 public class RssService extends IntentService
 {
 
-	private static final String RSS_LINK = "http://steamofertas.com/feed/";
+	private static final String RSS_LINK = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 

@@ -61,7 +61,7 @@ public class RssParser
 			}
 			if (title != null && link != null && description != null)
 			{
-				if (!title.equals("SteamOfertas"))
+				if (!title.equals("Huntgames.es"))
 				{
 
 					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description);
