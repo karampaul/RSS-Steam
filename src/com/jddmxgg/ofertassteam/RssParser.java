@@ -66,7 +66,7 @@ public class RssParser
 		}
 		return items;
 	}
-
+	//Pick the link to the web 
 	private String readLink(XmlPullParser parser) throws XmlPullParserException, IOException
 	{
 		parser.require(XmlPullParser.START_TAG, ns, "link");
@@ -74,7 +74,7 @@ public class RssParser
 		parser.require(XmlPullParser.END_TAG, ns, "link");
 		return link;
 	}
-
+	//Pick the title of article
 	private String readTitle(XmlPullParser parser) throws XmlPullParserException, IOException
 	{
 		parser.require(XmlPullParser.START_TAG, ns, "title");
@@ -82,7 +82,15 @@ public class RssParser
 		parser.require(XmlPullParser.END_TAG, ns, "title");
 		return title;
 	}
-
+	//Pick the description of article 
+	private String readDescription(XmlPullParser parser) throws XmlPullParserException, IOException
+	{
+		parser.require(XmlPullParser.START_TAG, ns, "description");
+		String description = readText(parser);
+		parser.require(XmlPullParser.END_TAG, ns, "description");
+		return description;
+	}
+	
 	// For the tags title and link, extract their text values.
 	private String readText(XmlPullParser parser) throws IOException, XmlPullParserException
 	{
