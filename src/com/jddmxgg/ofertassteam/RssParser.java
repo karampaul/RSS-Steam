@@ -38,6 +38,7 @@ public class RssParser
 		int pos = 0;
 		String title = null;
 		String link = null;
+		String description = null;
 		List<RssItem> items = new ArrayList<RssItem>();
 		while (parser.next() != XmlPullParser.END_DOCUMENT)
 		{
@@ -54,12 +55,16 @@ public class RssParser
 			{
 				link = readLink(parser);
 			}
-			if (title != null && link != null)
+			else if (name.equals("description"))
+			{
+				description = readDescription(parser);
+			}
+			if (title != null && link != null && description != null)
 			{
 				if (!title.equals("SteamOfertas"))
 				{
 
-					RssItem item = new RssItem(title, link, Constants.COLORS[pos]);
+					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description);
 					items.add(item);
 					pos++;
 					if (pos >= Constants.COLORS.length)
@@ -67,6 +72,7 @@ public class RssParser
 				}
 				title = null;
 				link = null;
+				description = null;
 			}
 		}
 		return items;
