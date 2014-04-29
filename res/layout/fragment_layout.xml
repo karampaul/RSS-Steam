@@ -12,11 +12,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="#d0d0d0"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@android:color/white"
-            android:textSize="36sp"
+            android:textColor="#313131"
+            android:textSize="25sp"
             android:textStyle="italic|bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="#313131" />
 
         <ListView
             android:id="@+id/listView"
