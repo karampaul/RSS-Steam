@@ -55,10 +55,13 @@ public class RssParser
 			}
 			if (title != null && link != null)
 			{
-				RssItem item = new RssItem(title, link);
-				items.add(item);
-				title = null;
-				link = null;
+				if (!title.equals("SteamOfertas"))
+				{
+					RssItem item = new RssItem(title, link);
+					items.add(item);
+					title = null;
+					link = null;
+				}
 			}
 		}
 		return items;
