@@ -92,7 +92,8 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		Intent intent = new Intent(parent.getContext(), DescriptionActivity.class);
 		intent.putExtra("title", item.getTitle());
 		intent.putExtra("description", item.getDescription());
-		intent.putExtra("uri", item.getLink().toString());
+		intent.putExtra("uri", item.getLink());
+		intent.putExtra("date", item.getDate());
 		startActivity(intent);
 	}
 }

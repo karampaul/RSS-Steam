@@ -2,8 +2,11 @@ package com.jddmxgg.ofertassteam;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,6 +18,7 @@ public class RssParser
 
 	// We don't use namespaces
 	private final String ns = null;
+	SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 
 	public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException
 	{
@@ -32,6 +36,7 @@ public class RssParser
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private List<RssItem> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException
 	{
 		parser.require(XmlPullParser.START_TAG, null, "rss");
@@ -39,6 +44,7 @@ public class RssParser
 		String title = null;
 		String link = null;
 		String description = null;
+		String date = null;
 		List<RssItem> items = new ArrayList<RssItem>();
 		while (parser.next() != XmlPullParser.END_DOCUMENT)
 		{
@@ -59,12 +65,26 @@ public class RssParser
 			{
 				description = readDescription(parser);
 			}
+			else if (name.equals("pubDate"))
+			{
+				date = readDate(parser);
+				try
+				{
+					Date d = formatter.parse(date);
+					date = d.getDate() + "/" + (d.getMonth() + 1);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+
+			}
 			if (title != null && link != null && description != null)
 			{
-				if (!title.equals("Huntgames.es"))
+				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas"))
 				{
 
-					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description);
+					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description, date);
 					items.add(item);
 					pos++;
 					if (pos >= Constants.COLORS.length)
@@ -73,6 +93,7 @@ public class RssParser
 				title = null;
 				link = null;
 				description = null;
+				date = null;
 			}
 		}
 		return items;
@@ -85,6 +106,15 @@ public class RssParser
 		String link = readText(parser);
 		parser.require(XmlPullParser.END_TAG, ns, "link");
 		return link;
+	}
+
+	//Pick the date to the web 
+	private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException
+	{
+		parser.require(XmlPullParser.START_TAG, ns, "pubDate");
+		String date = readText(parser);
+		parser.require(XmlPullParser.END_TAG, ns, "pubDate");
+		return date;
 	}
 
 	//Pick the title of article
@@ -116,4 +146,5 @@ public class RssParser
 		}
 		return result;
 	}
+
 }

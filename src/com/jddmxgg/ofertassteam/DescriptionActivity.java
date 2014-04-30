@@ -15,11 +15,13 @@ public class DescriptionActivity extends Activity implements OnClickListener
 
 	private TextView tvTitle;
 	private TextView tvDescription;
+	private TextView tvDate;
 	private Button tvGoToPage;
 
 	private Uri uri;
 	private String title;
 	private String description;
+	private String date;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -27,15 +29,18 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.description_layout);
 
-		tvTitle = (TextView) findViewById(R.id.itemTitle);
+		tvTitle = (TextView) findViewById(R.id.descriptionTitle);
 		tvDescription = (TextView) findViewById(R.id.itemDescription);
+		tvDate = (TextView) findViewById(R.id.itemDate);
 		tvGoToPage = (Button) findViewById(R.id.btnGoToPage);
 
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));
+		date = getIntent().getExtras().getString("date");
 
 		tvTitle.setText(title);
+		tvDate.setText(date);
 		tvDescription.setText(Html.fromHtml(description));
 		tvGoToPage.setOnClickListener(this);
 	}

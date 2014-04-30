@@ -49,6 +49,7 @@ public class RssAdapter extends BaseAdapter
 			holder = new ViewHolder();
 			holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
 			holder.viewColor = (View) convertView.findViewById(R.id.view_color);
+			holder.itemDate = (TextView) convertView.findViewById(R.id.date);
 			convertView.setTag(holder);
 		}
 		else
@@ -57,12 +58,14 @@ public class RssAdapter extends BaseAdapter
 		}
 		holder.itemTitle.setText(items.get(position).getTitle());
 		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
+		holder.itemDate.setText(items.get(position).getDate());
 		return convertView;
 	}
 
 	static class ViewHolder
 	{
 		TextView itemTitle;
+		TextView itemDate;
 		View viewColor;
 	}
 }
