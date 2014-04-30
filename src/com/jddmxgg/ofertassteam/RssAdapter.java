@@ -56,7 +56,12 @@ public class RssAdapter extends BaseAdapter
 		{
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.itemTitle.setText(items.get(position).getTitle());
+		String title = items.get(position).getTitle();
+		if( title.length() > 80)
+		{
+			title = title.substring(0,80)+"...";
+		}
+		holder.itemTitle.setText(title);
 		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
 		holder.itemDate.setText(items.get(position).getDate());
 		return convertView;
