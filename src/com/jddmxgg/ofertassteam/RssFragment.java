@@ -3,6 +3,7 @@ package com.jddmxgg.ofertassteam;
 import java.util.List;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -12,16 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.jddmxgg.ofertassteam.PullToRefreshListView.OnRefreshListener;
 
 public class RssFragment extends Fragment implements OnItemClickListener
 {
 
 	private ProgressBar progressBar;
-	private ListView listView;
+	private PullToRefreshListView listView;
 	private View view;
+	private Intent intent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -37,7 +40,17 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		{
 			view = inflater.inflate(R.layout.fragment_layout, container, false);
 			progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-			listView = (ListView) view.findViewById(R.id.listView);
+			listView = (PullToRefreshListView) view.findViewById(R.id.listView);
+			listView.setOnRefreshListener(new OnRefreshListener()
+			{
+
+				@Override
+				public void onRefresh()
+				{
+					new GetDataTask().execute();
+				}
+
+			});
 			listView.setOnItemClickListener(this);
 			startService();
 		}
@@ -54,8 +67,14 @@ public class RssFragment extends Fragment implements OnItemClickListener
 
 	private void startService()
 	{
-		Intent intent = new Intent(getActivity(), RssService.class);
+		intent = new Intent(getActivity(), RssService.class);
 		intent.putExtra(RssService.RECEIVER, resultReceiver);
+		getActivity().startService(intent);
+	}
+
+	private void reloadService(Intent i)
+	{
+		getActivity().stopService(i);
 		getActivity().startService(intent);
 	}
 
@@ -95,5 +114,24 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		intent.putExtra("uri", item.getLink());
 		intent.putExtra("date", item.getDate());
 		startActivity(intent);
+	}
+
+	private class GetDataTask extends AsyncTask<Void, Void, String[]>
+	{
+		@Override
+		protected void onPostExecute(String[] result)
+		{
+			//mListItems.addFirst("Added after refresh...");
+			// Call onRefreshComplete when the list has been refreshed.
+			listView.onRefreshComplete();
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected String[] doInBackground(Void... params)
+		{
+			reloadService(intent);
+			return null;
+		}
 	}
 }

@@ -37,12 +37,12 @@
             android:layout_height="1px"
             android:background="#313131" />
 
-        <ListView
+        <com.jddmxgg.ofertassteam.PullToRefreshListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#3d3d3d" >
-        </ListView>
+        </com.jddmxgg.ofertassteam.PullToRefreshListView>
     </LinearLayout>
 
     <ProgressBar
