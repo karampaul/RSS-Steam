@@ -21,6 +21,9 @@ public class RssService extends IntentService
 
 	private static final String RSS_LINK_HUNTGAMES = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
+	//3º Feed: Ofertas de un panda
+	//private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
+	
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 	List<RssItem> rssItems = null;
@@ -50,6 +53,8 @@ public class RssService extends IntentService
 			RssParser parser = new RssParser();
 			rssItems = parser.parse(getInputStream(RSS_LINK_HUNTGAMES));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
+			//Si la dejo puesta peta al abrir la aplicación
+			//rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			Collections.sort(rssItems, new CustomComparator());
 			Collections.reverse(rssItems);
 		}
