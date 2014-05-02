@@ -1,5 +1,8 @@
 package com.jddmxgg.ofertassteam;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 public class Constants
@@ -13,5 +16,18 @@ public class Constants
 	{
 		if (DEBUG)
 			Log.d(TAG, message);
+	}
+
+	public static boolean internetConnectionEnabled(Context contexto)
+	{
+		ConnectivityManager conMgr = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo i = conMgr.getActiveNetworkInfo();
+		if (i == null)
+			return false;
+		if (!i.isConnected())
+			return false;
+		if (!i.isAvailable())
+			return false;
+		return true;
 	}
 }

@@ -2,7 +2,12 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +36,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private View mView;
 	private Intent mIntent;
 	private RotateAnimation mRotateAnimation;
+	private Bitmap mBitmap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -48,12 +54,18 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
-			
-			mRotateAnimation = new RotateAnimation(0f, 360f, 15f, 15f);
+			mRefreshButton.setEnabled(false);
+
+			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_refresh);
+
+			int height = mBitmap.getHeight();
+			int width = mBitmap.getWidth();
+
+			mRotateAnimation = new RotateAnimation(0f, 360f, width / 2, height / 2);
 			mRotateAnimation.setInterpolator(new LinearInterpolator());
 			mRotateAnimation.setRepeatCount(Animation.INFINITE);
 			mRotateAnimation.setDuration(5000);
-			
+
 			mListView.setOnItemClickListener(this);
 			mRefreshButton.setOnClickListener(this);
 			startService();
@@ -71,9 +83,27 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 
 	private void startService()
 	{
-		mIntent = new Intent(getActivity(), RssService.class);
-		mIntent.putExtra(RssService.RECEIVER, resultReceiver);
-		getActivity().startService(mIntent);
+		if (Constants.internetConnectionEnabled(getActivity().getApplicationContext()))
+		{
+			mIntent = new Intent(getActivity(), RssService.class);
+			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
+			getActivity().startService(mIntent);
+		}
+		else
+		{
+			AlertDialog.Builder dialog = new Builder(getActivity().getApplicationContext());
+			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
+			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					getActivity().finish();
+				}
+			});
+			dialog.show();
+		}
 	}
 
 	private void reloadService(Intent i)
@@ -98,6 +128,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			{
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
+				mRefreshButton.setEnabled(true);
 			}
 			else
 			{
@@ -125,11 +156,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		@Override
 		protected void onPostExecute(String[] result)
 		{
-			//mListItems.addFirst("Added after refresh...");
-			// Call onRefreshComplete when the list has been refreshed.
-			//listView.onRefreshComplete();
-			//mRotateAnimation.cancel();
-			Constants.debug("POSTEXCUTEEEEEEEEEEEEEEE");
+			mRotateAnimation.cancel();
 			super.onPostExecute(result);
 		}
 
@@ -147,7 +174,6 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		if (v.getId() == R.id.btnRefresh)
 		{
 			mRefreshButton.startAnimation(mRotateAnimation);
-			Constants.debug("CLIIIIIIIIIIIIIIIIIIIIIIIICK");
 			new GetDataTask().execute();
 		}
 	}

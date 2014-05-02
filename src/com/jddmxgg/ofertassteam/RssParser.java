@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +20,7 @@ public class RssParser
 	// We don't use namespaces
 	private final String ns = null;
 	SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+	Calendar mCalendar = Calendar.getInstance();
 
 	public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException
 	{
@@ -86,7 +88,6 @@ public class RssParser
 				// Aqui habrí que mirar de meter vayaansias y ofertas de un panda.
 				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("-=VayaAnsias=-") && !title.equals("jedelwey2"))
 				{
-
 					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description, month, day);
 					items.add(item);
 					pos++;

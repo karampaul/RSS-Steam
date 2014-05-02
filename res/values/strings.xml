@@ -6,6 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="go_web">Click para saber más…</string>
-
+    <string name="msg_no_internet">No está conectado a una red de internet. Inténtelo más tarde.</string>
 
 </resources>
