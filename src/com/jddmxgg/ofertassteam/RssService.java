@@ -25,7 +25,6 @@ public class RssService extends IntentService
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
 	private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
 	private static final String RSS_LINK_VAYAANSIAS = "http://www.vayaansias.com/feeds/posts/default?alt=rss";
-	private static final String RSS_LINK_PRUEBA = "http://jedelwey2.wordpress.com/feed/";
 
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
@@ -62,7 +61,6 @@ public class RssService extends IntentService
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
-			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_PRUEBA)));
 
 			Collections.sort(rssItems, new DayComparer());
 			Collections.sort(rssItems, new MonthComparer());
