@@ -9,7 +9,7 @@ public class Constants
 {
 	public static final String TAG = "RssApp";
 	public static final String ADD_ID = "";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	public static void debug(String message)
 	{
