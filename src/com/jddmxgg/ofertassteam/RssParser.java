@@ -81,6 +81,7 @@ public class RssParser
 			}
 			if (title != null && link != null && description != null)
 			{
+				//Aqui habrá que mirar de meter vayaansias y ofertas de un panda.
 				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas"))
 				{
 

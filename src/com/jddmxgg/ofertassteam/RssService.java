@@ -21,8 +21,10 @@ public class RssService extends IntentService
 
 	private static final String RSS_LINK_HUNTGAMES = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
-	//3º Feed: Ofertas de un panda
+	//3º Feed: Ofertas de un panda. Creo que no es compatible.
 	//private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
+	//4º Feed: Ofertas de Vaya ansias. Creo que no es compatible
+	//private static final String RSS_LINK_VAYAANSIAS = "http://www.vayaansias.com/feeds/posts/default?alt=rss";
 	
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
@@ -53,8 +55,11 @@ public class RssService extends IntentService
 			RssParser parser = new RssParser();
 			rssItems = parser.parse(getInputStream(RSS_LINK_HUNTGAMES));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
-			//Si la dejo puesta peta al abrir la aplicación
+			
+			//Si las dejo puestas peta al abrir la aplicación
 			//rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
+			//rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
+			
 			Collections.sort(rssItems, new CustomComparator());
 			Collections.reverse(rssItems);
 		}
@@ -88,6 +93,7 @@ public class RssService extends IntentService
 		@Override
 		public int compare(RssItem item1, RssItem item2)
 		{
+			
 			return item1.getDate().compareTo(item2.getDate());
 		}
 	}
