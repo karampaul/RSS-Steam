@@ -64,7 +64,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mRefreshButton.setEnabled(false);
 			
 			 //Inicio meter publicidad 
-	        adView = new AdView(getActivity(), AdSize.BANNER, Constants.AdMob_Ad_Unit);
+	        adView = new AdView(getActivity(), AdSize.BANNER, Constants.ADMOB_PUBLISHER_ID);
 	        LinearLayout layout = (LinearLayout) mView.findViewById(R.id.listaprincipal);
 	        layout.addView(adView);
 	        AdRequest request = new AdRequest();

@@ -30,7 +30,6 @@ public class DescriptionActivity extends Activity implements OnClickListener
 	private String date;
 	private AdView adView;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -41,29 +40,28 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tvDescription = (TextView) findViewById(R.id.itemDescription);
 		tvDate = (TextView) findViewById(R.id.itemDate);
 		tvGoToPage = (Button) findViewById(R.id.btnGoToPage);
+		LinearLayout layout = (LinearLayout) findViewById(R.id.articulo);
 
-		//Inicio meter publicidad 
-        adView = new AdView(this, AdSize.BANNER, Constants.AdMob_Ad_Unit);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.articulo);
-        layout.addView(adView);
-        AdRequest request = new AdRequest();
-        adView.loadAd(request);
-        adView.setVisibility(View.GONE);
-        new CountDownTimer(3000,1000) {
-			
+		adView = new AdView(this, AdSize.BANNER, Constants.ADMOB_PUBLISHER_ID);
+		layout.addView(adView);
+		AdRequest request = new AdRequest();
+		adView.loadAd(request);
+		adView.setVisibility(View.GONE);
+
+		new CountDownTimer(3000, 1000)
+		{
+
 			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-				
+			public void onTick(long millisUntilFinished)
+			{
 			}
-			
+
 			@Override
-			public void onFinish() {
-				// TODO Auto-generated method stub
+			public void onFinish()
+			{
 				adView.setVisibility(View.VISIBLE);
 			}
 		}.start();
-        //Fin meter publicidad 
 
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
