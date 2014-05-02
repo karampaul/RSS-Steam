@@ -83,7 +83,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 
 	private void startService()
 	{
-		if (Constants.internetConnectionEnabled(getActivity().getApplicationContext()))
+		if (Constants.internetConnectionEnabled(getActivity()))
 		{
 			mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
@@ -91,11 +91,11 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
-			AlertDialog.Builder dialog = new Builder(getActivity().getApplicationContext());
+			AlertDialog.Builder dialog = new Builder(getActivity());
 			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
 			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
 			{
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
