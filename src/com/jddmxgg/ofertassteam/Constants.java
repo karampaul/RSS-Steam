@@ -19,13 +19,13 @@ public class Constants
 
 	public static enum Colors
 	{
-		PURPLE("#8F00FF"),
-		INDIGO("#4B0082"),
-		BLUE("#0000FF"),
-		GREEN("#00FF00"),
-		YELLOW("#FFFF00"),
-		ORANGE("#FF7F00"),
-		RED("#FF0000");
+		PURPLE	("#8F00FF"),
+		INDIGO	("#4B0082"),
+		BLUE	("#0000FF"),
+		GREEN	("#00FF00"),
+		YELLOW	("#FFFF00"),
+		ORANGE	("#FF7F00"),
+		RED		("#FF0000");
 
 		String mColorCode;
 

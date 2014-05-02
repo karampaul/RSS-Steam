@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,6 +30,10 @@ public class RssService extends IntentService
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 	List<RssItem> rssItems = null;
+
+	private String mColor = Constants.Colors.PURPLE.getColor();
+	private ArrayList<Constants.Colors> Colors = new ArrayList<Constants.Colors>(Arrays.asList(Constants.Colors.values()));
+	private int pos = 0;
 
 	public RssService()
 	{
@@ -57,10 +63,12 @@ public class RssService extends IntentService
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_PRUEBA)));
-			
+
 			Collections.sort(rssItems, new DayComparer());
 			Collections.sort(rssItems, new MonthComparer());
 			Collections.reverse(rssItems);
+
+			setColors();
 		}
 		catch (XmlPullParserException e)
 		{
@@ -84,6 +92,21 @@ public class RssService extends IntentService
 		{
 			Log.w(Constants.TAG, "Exception while retrieving the input stream", e);
 			return null;
+		}
+	}
+
+	private void setColors()
+	{
+		for (int i = 0; i < rssItems.size(); i++)
+		{
+			if (i > 0)
+				if (!rssItems.get(i).getDay().equals(rssItems.get(i - 1).getDay()))
+					pos++;
+			if (pos >= Colors.size())
+				pos = 0;
+
+			mColor = Colors.get(pos).getColor();
+			rssItems.get(i).setColor(mColor);
 		}
 	}
 

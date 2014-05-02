@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +20,6 @@ public class RssParser
 	private final String ns = null;
 	SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 	Calendar mCalendar = Calendar.getInstance();
-
-	private String mColor = Constants.Colors.PURPLE.getColor();
-	private ArrayList<Constants.Colors> Colors = new ArrayList<Constants.Colors>(Arrays.asList(Constants.Colors.values()));
-	private int pos = 0;
 
 	public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException
 	{
@@ -51,7 +46,6 @@ public class RssParser
 		String description = null;
 		String month = null;
 		String day = null;
-		int position = 0;
 		List<RssItem> items = new ArrayList<RssItem>();
 		while (parser.next() != XmlPullParser.END_DOCUMENT)
 		{
@@ -92,14 +86,7 @@ public class RssParser
 				// Aqui habrí que mirar de meter vayaansias y ofertas de un panda.
 				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("-=VayaAnsias=-") && !title.equals("jedelwey2"))
 				{
-					if (position > 0)
-						if (!day.equals(items.get(position - 1).getDay()))
-							pos++;
-					mColor = Colors.get(pos).getColor();
-					if (pos + 1 >= Colors.size())
-						pos = 0;
-
-					RssItem item = new RssItem(title, link, description, month, day, mColor);
+					RssItem item = new RssItem(title, link, description, month, day, null);
 					items.add(item);
 				}
 				title = null;
@@ -110,17 +97,6 @@ public class RssParser
 		}
 		return items;
 	}
-
-//	private void autoSelectColor(int position)
-//	{
-//		String day = items.get(position).getDay();
-//		if (position > 0)
-//			if (!day.equals(items.get(position - 1).getDay()))
-//				pos++;
-//		mColor = Colors.get(pos).getColor();
-//		if (pos + 1 >= Colors.size())
-//			pos = 0;
-//	}
 
 	//Pick the link to the web 
 	private String readLink(XmlPullParser parser) throws XmlPullParserException, IOException
