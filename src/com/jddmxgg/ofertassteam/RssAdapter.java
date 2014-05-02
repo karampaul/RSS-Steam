@@ -2,6 +2,7 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -64,7 +65,19 @@ public class RssAdapter extends BaseAdapter
 
 		holder.itemTitle.setText(title);
 		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
-		holder.itemDate.setText(items.get(position).getDay() + "/" + items.get(position).getMonth());
+		
+		String dia = "";
+		String mes = "";
+		dia = items.get(position).getDay();
+		mes =  items.get(position).getMonth();
+		if(Integer.parseInt(dia) < 10){
+			dia = "0" + dia;
+		}
+		if(Integer.parseInt(mes) < 10){
+			mes = "0" + mes;
+		}
+		holder.itemDate.setText(dia + "/" + mes);
+		
 		return convertView;
 	}
 
