@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 
 public class DescriptionActivity extends Activity implements OnClickListener
 {
@@ -22,6 +28,8 @@ public class DescriptionActivity extends Activity implements OnClickListener
 	private String title;
 	private String description;
 	private String date;
+	private AdView adView;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +41,29 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tvDescription = (TextView) findViewById(R.id.itemDescription);
 		tvDate = (TextView) findViewById(R.id.itemDate);
 		tvGoToPage = (Button) findViewById(R.id.btnGoToPage);
+
+		//Inicio meter publicidad 
+        adView = new AdView(this, AdSize.BANNER, Constants.AdMob_Ad_Unit);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.articulo);
+        layout.addView(adView);
+        AdRequest request = new AdRequest();
+        adView.loadAd(request);
+        adView.setVisibility(View.GONE);
+        new CountDownTimer(3000,1000) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+				adView.setVisibility(View.VISIBLE);
+			}
+		}.start();
+        //Fin meter publicidad 
 
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
