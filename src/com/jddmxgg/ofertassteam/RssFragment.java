@@ -2,6 +2,10 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -23,6 +27,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -37,6 +42,8 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private Intent mIntent;
 	private RotateAnimation mRotateAnimation;
 	private Bitmap mBitmap;
+	private AdView adView;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -55,6 +62,14 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
 			mRefreshButton.setEnabled(false);
+			
+			 //Inicio meter publicidad 
+	        adView = new AdView(getActivity(), AdSize.BANNER, Constants.AdMob_Ad_Unit);
+	        LinearLayout layout = (LinearLayout) mView.findViewById(R.id.listaprincipal);
+	        layout.addView(adView);
+	        AdRequest request = new AdRequest();
+	        adView.loadAd(request);
+	        //Fin meter publicidad 
 
 			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_refresh);
 
@@ -177,4 +192,5 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			new GetDataTask().execute();
 		}
 	}
+	
 }

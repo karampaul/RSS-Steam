@@ -10,7 +10,9 @@ public class Constants
 	public static final String TAG = "RssApp";
 	public static final String ADD_ID = "";
 	private static final boolean DEBUG = false;
+	public static final String AdMob_Ad_Unit = "ca-app-pub-2689062467644026/9100777993";
 
+	
 	public static void debug(String message)
 	{
 		if (DEBUG)

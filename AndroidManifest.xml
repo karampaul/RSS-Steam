@@ -31,6 +31,11 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
 
+        <activity 
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:name="com.google.ads.AdActivity" 
+        />
+        
         <service android:name=".RssService" />
     </application>
 
