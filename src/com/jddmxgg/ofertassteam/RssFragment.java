@@ -13,16 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.jddmxgg.ofertassteam.PullToRefreshListView.OnRefreshListener;
 
 public class RssFragment extends Fragment implements OnItemClickListener
 {
 
 	private ProgressBar progressBar;
-	private PullToRefreshListView listView;
+	private ListView listView;
 	private View view;
 	private Intent intent;
 
@@ -40,17 +39,17 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		{
 			view = inflater.inflate(R.layout.fragment_layout, container, false);
 			progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-			listView = (PullToRefreshListView) view.findViewById(R.id.listView);
-			listView.setOnRefreshListener(new OnRefreshListener()
-			{
-
-				@Override
-				public void onRefresh()
-				{
-					new GetDataTask().execute();
-				}
-
-			});
+			listView = (ListView) view.findViewById(R.id.listView);
+//			listView.setOnRefreshListener(new OnRefreshListener()
+//			{
+//
+//				@Override
+//				public void onRefresh()
+//				{
+//					new GetDataTask().execute();
+//				}
+//
+//			});
 			listView.setOnItemClickListener(this);
 			startService();
 		}
@@ -123,7 +122,7 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		{
 			//mListItems.addFirst("Added after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
-			listView.onRefreshComplete();
+			//listView.onRefreshComplete();
 			super.onPostExecute(result);
 		}
 

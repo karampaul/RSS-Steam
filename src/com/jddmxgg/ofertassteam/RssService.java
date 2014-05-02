@@ -21,10 +21,10 @@ public class RssService extends IntentService
 
 	private static final String RSS_LINK_HUNTGAMES = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
-	//3º Feed: Ofertas de un panda. Creo que no es compatible.
-	//private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
-	//4º Feed: Ofertas de Vaya ansias. Creo que no es compatible
-	//private static final String RSS_LINK_VAYAANSIAS = "http://www.vayaansias.com/feeds/posts/default?alt=rss";
+	//3ï¿½ Feed: Ofertas de un panda. Creo que no es compatible.
+	private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
+	//4ï¿½ Feed: Ofertas de Vaya ansias. Creo que no es compatible
+	private static final String RSS_LINK_VAYAANSIAS = "http://www.vayaansias.com/feeds/posts/default?alt=rss";
 	
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
@@ -56,9 +56,9 @@ public class RssService extends IntentService
 			rssItems = parser.parse(getInputStream(RSS_LINK_HUNTGAMES));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
 			
-			//Si las dejo puestas peta al abrir la aplicación
-			//rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
-			//rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
+			//Si las dejo puestas peta al abrir la aplicaciï¿½n
+			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
+			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
 			
 			Collections.sort(rssItems, new CustomComparator());
 			Collections.reverse(rssItems);
