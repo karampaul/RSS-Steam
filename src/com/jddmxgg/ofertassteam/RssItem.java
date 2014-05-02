@@ -11,19 +11,19 @@ public class RssItem
 
 	private final String mTitle;
 	private final String mLink;
-	private String mColor;
 	private final String mDescription;
 	private final String mMonth;
 	private final String mDay;
+	private final String mColor;
 
-	public RssItem(String title, String link, String color, String description, String month, String day)
+	public RssItem(String title, String link, String description, String month, String day, String color)
 	{
 		mTitle = title;
 		mLink = link;
-		mColor = color;
 		mDescription = description;
 		mMonth = month;
 		mDay = day;
+		mColor = color;
 	}
 
 	public String getTitle()
@@ -34,11 +34,6 @@ public class RssItem
 	public String getLink()
 	{
 		return mLink;
-	}
-
-	public String getColor()
-	{
-		return mColor;
 	}
 
 	public String getDescription()
@@ -56,9 +51,8 @@ public class RssItem
 		return mDay;
 	}
 
-	public void setColor(String color)
+	public String getColor()
 	{
-		mColor = color;
+		return mColor;
 	}
-
 }

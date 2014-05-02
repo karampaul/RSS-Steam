@@ -61,6 +61,7 @@ public class RssAdapter extends BaseAdapter
 		{
 			title = title.substring(0, 80) + "&#8230;";
 		}
+
 		holder.itemTitle.setText(title);
 		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
 		holder.itemDate.setText(items.get(position).getDay() + "/" + items.get(position).getMonth());
