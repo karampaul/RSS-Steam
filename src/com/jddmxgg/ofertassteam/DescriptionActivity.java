@@ -39,6 +39,8 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));
 		date = getIntent().getExtras().getString("date");
 
+		description = description.replaceAll("<img(.*?)\\>", "");
+
 		tvTitle.setText(title);
 		tvDate.setText(date);
 		tvDescription.setText(Html.fromHtml(description));

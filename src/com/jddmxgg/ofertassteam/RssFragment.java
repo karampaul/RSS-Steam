@@ -147,7 +147,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		intent.putExtra("title", item.getTitle());
 		intent.putExtra("description", item.getDescription());
 		intent.putExtra("uri", item.getLink());
-		intent.putExtra("date", item.getMonth());
+		intent.putExtra("date", item.getDay() + "/" + item.getMonth());
 		startActivity(intent);
 	}
 
@@ -156,8 +156,8 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		@Override
 		protected void onPostExecute(String[] result)
 		{
-			mRotateAnimation.cancel();
 			super.onPostExecute(result);
+			mRotateAnimation.cancel();
 		}
 
 		@Override

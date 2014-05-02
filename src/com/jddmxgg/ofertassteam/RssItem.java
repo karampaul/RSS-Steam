@@ -11,7 +11,7 @@ public class RssItem
 
 	private final String mTitle;
 	private final String mLink;
-	private final String mColor;
+	private String mColor;
 	private final String mDescription;
 	private final String mMonth;
 	private final String mDay;
@@ -54,6 +54,11 @@ public class RssItem
 	public String getDay()
 	{
 		return mDay;
+	}
+
+	public void setColor(String color)
+	{
+		mColor = color;
 	}
 
 }
