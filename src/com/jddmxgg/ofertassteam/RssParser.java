@@ -44,7 +44,8 @@ public class RssParser
 		String title = null;
 		String link = null;
 		String description = null;
-		String date = null;
+		String month = null;
+		String day = null;
 		List<RssItem> items = new ArrayList<RssItem>();
 		while (parser.next() != XmlPullParser.END_DOCUMENT)
 		{
@@ -67,11 +68,12 @@ public class RssParser
 			}
 			else if (name.equals("pubDate"))
 			{
-				date = readDate(parser);
+				month = readDate(parser);
 				try
 				{
-					Date d = formatter.parse(date);
-					date = d.getDate() + "/" + (d.getMonth() + 1);
+					Date d = formatter.parse(month);
+					month = String.valueOf(d.getMonth() + 1);
+					day = String.valueOf(d.getDate());
 				}
 				catch (Exception e)
 				{
@@ -82,10 +84,10 @@ public class RssParser
 			if (title != null && link != null && description != null)
 			{
 				// Aqui habrí que mirar de meter vayaansias y ofertas de un panda.
-				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("-=VayaAnsias=-"))
+				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("-=VayaAnsias=-") && !title.equals("jedelwey2"))
 				{
 
-					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description, date);
+					RssItem item = new RssItem(title, link, Constants.COLORS[pos], description, month, day);
 					items.add(item);
 					pos++;
 					if (pos >= Constants.COLORS.length)
@@ -94,7 +96,7 @@ public class RssParser
 				title = null;
 				link = null;
 				description = null;
-				date = null;
+				month = null;
 			}
 		}
 		return items;

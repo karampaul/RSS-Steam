@@ -9,44 +9,51 @@ package com.jddmxgg.ofertassteam;
 public class RssItem
 {
 
-	private final String title;
-	private final String link;
-	private final String color;
-	private final String description;
-	private final String date;
+	private final String mTitle;
+	private final String mLink;
+	private final String mColor;
+	private final String mDescription;
+	private final String mMonth;
+	private final String mDay;
 
-	public RssItem(String title, String link, String color, String description, String date)
+	public RssItem(String title, String link, String color, String description, String month, String day)
 	{
-		this.title = title;
-		this.link = link;
-		this.color = color;
-		this.description = description;
-		this.date = date;
+		mTitle = title;
+		mLink = link;
+		mColor = color;
+		mDescription = description;
+		mMonth = month;
+		mDay = day;
 	}
 
 	public String getTitle()
 	{
-		return title;
+		return mTitle;
 	}
 
 	public String getLink()
 	{
-		return link;
+		return mLink;
 	}
 
 	public String getColor()
 	{
-		return color;
+		return mColor;
 	}
 
 	public String getDescription()
 	{
-		return description;
+		return mDescription;
 	}
 
-	public String getDate()
+	public String getMonth()
 	{
-		return date;
+		return mMonth;
+	}
+
+	public String getDay()
+	{
+		return mDay;
 	}
 
 }

@@ -21,11 +21,10 @@ public class RssService extends IntentService
 
 	private static final String RSS_LINK_HUNTGAMES = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
-	//3� Feed: Ofertas de un panda. Creo que no es compatible.
 	private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
-	//4� Feed: Ofertas de Vaya ansias. Creo que no es compatible
 	private static final String RSS_LINK_VAYAANSIAS = "http://www.vayaansias.com/feeds/posts/default?alt=rss";
-	
+	private static final String RSS_LINK_PRUEBA = "http://jedelwey2.wordpress.com/feed/";
+
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 	List<RssItem> rssItems = null;
@@ -55,12 +54,12 @@ public class RssService extends IntentService
 			RssParser parser = new RssParser();
 			rssItems = parser.parse(getInputStream(RSS_LINK_HUNTGAMES));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
-			
-			//Si las dejo puestas peta al abrir la aplicaci�n
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
+			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_PRUEBA)));
 			
-			Collections.sort(rssItems, new CustomComparator());
+			Collections.sort(rssItems, new DayComparer());
+			Collections.sort(rssItems, new MonthComparer());
 			Collections.reverse(rssItems);
 		}
 		catch (XmlPullParserException e)
@@ -88,13 +87,23 @@ public class RssService extends IntentService
 		}
 	}
 
-	public class CustomComparator implements Comparator<RssItem>
+	public class MonthComparer implements Comparator<RssItem>
 	{
 		@Override
 		public int compare(RssItem item1, RssItem item2)
 		{
-			
-			return item1.getDate().compareTo(item2.getDate());
+
+			return item1.getMonth().compareTo(item2.getMonth());
+		}
+	}
+
+	public class DayComparer implements Comparator<RssItem>
+	{
+		@Override
+		public int compare(RssItem item1, RssItem item2)
+		{
+
+			return item1.getDay().compareTo(item2.getDay());
 		}
 	}
 }

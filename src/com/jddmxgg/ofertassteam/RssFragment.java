@@ -10,20 +10,27 @@ import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class RssFragment extends Fragment implements OnItemClickListener
+public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
 
-	private ProgressBar progressBar;
-	private ListView listView;
-	private View view;
-	private Intent intent;
+	private ProgressBar mProgressBar;
+	private ListView mListView;
+	private ImageButton mRefreshButton;
+	private View mView;
+	private Intent mIntent;
+	private RotateAnimation mRotateAnimation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -35,22 +42,20 @@ public class RssFragment extends Fragment implements OnItemClickListener
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		if (view == null)
+		if (mView == null)
 		{
-			view = inflater.inflate(R.layout.fragment_layout, container, false);
-			progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-			listView = (ListView) view.findViewById(R.id.listView);
-//			listView.setOnRefreshListener(new OnRefreshListener()
-//			{
-//
-//				@Override
-//				public void onRefresh()
-//				{
-//					new GetDataTask().execute();
-//				}
-//
-//			});
-			listView.setOnItemClickListener(this);
+			mView = inflater.inflate(R.layout.fragment_layout, container, false);
+			mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
+			mListView = (ListView) mView.findViewById(R.id.listView);
+			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
+			
+			mRotateAnimation = new RotateAnimation(0f, 360f, 15f, 15f);
+			mRotateAnimation.setInterpolator(new LinearInterpolator());
+			mRotateAnimation.setRepeatCount(Animation.INFINITE);
+			mRotateAnimation.setDuration(5000);
+			
+			mListView.setOnItemClickListener(this);
+			mRefreshButton.setOnClickListener(this);
 			startService();
 		}
 		else
@@ -58,23 +63,23 @@ public class RssFragment extends Fragment implements OnItemClickListener
 			// If we are returning from a configuration change:
 			// "view" is still attached to the previous view hierarchy
 			// so we need to remove it and re-attach it to the current one
-			ViewGroup parent = (ViewGroup) view.getParent();
-			parent.removeView(view);
+			ViewGroup parent = (ViewGroup) mView.getParent();
+			parent.removeView(mView);
 		}
-		return view;
+		return mView;
 	}
 
 	private void startService()
 	{
-		intent = new Intent(getActivity(), RssService.class);
-		intent.putExtra(RssService.RECEIVER, resultReceiver);
-		getActivity().startService(intent);
+		mIntent = new Intent(getActivity(), RssService.class);
+		mIntent.putExtra(RssService.RECEIVER, resultReceiver);
+		getActivity().startService(mIntent);
 	}
 
 	private void reloadService(Intent i)
 	{
 		getActivity().stopService(i);
-		getActivity().startService(intent);
+		getActivity().startService(mIntent);
 	}
 
 	/**
@@ -87,12 +92,12 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData)
 		{
-			progressBar.setVisibility(View.GONE);
+			mProgressBar.setVisibility(View.GONE);
 			List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
 			if (items != null)
 			{
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
-				listView.setAdapter(adapter);
+				mListView.setAdapter(adapter);
 			}
 			else
 			{
@@ -111,7 +116,7 @@ public class RssFragment extends Fragment implements OnItemClickListener
 		intent.putExtra("title", item.getTitle());
 		intent.putExtra("description", item.getDescription());
 		intent.putExtra("uri", item.getLink());
-		intent.putExtra("date", item.getDate());
+		intent.putExtra("date", item.getMonth());
 		startActivity(intent);
 	}
 
@@ -123,14 +128,27 @@ public class RssFragment extends Fragment implements OnItemClickListener
 			//mListItems.addFirst("Added after refresh...");
 			// Call onRefreshComplete when the list has been refreshed.
 			//listView.onRefreshComplete();
+			//mRotateAnimation.cancel();
+			Constants.debug("POSTEXCUTEEEEEEEEEEEEEEE");
 			super.onPostExecute(result);
 		}
 
 		@Override
 		protected String[] doInBackground(Void... params)
 		{
-			reloadService(intent);
+			reloadService(mIntent);
 			return null;
+		}
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		if (v.getId() == R.id.btnRefresh)
+		{
+			mRefreshButton.startAnimation(mRotateAnimation);
+			Constants.debug("CLIIIIIIIIIIIIIIIIIIIIIIIICK");
+			new GetDataTask().execute();
 		}
 	}
 }
