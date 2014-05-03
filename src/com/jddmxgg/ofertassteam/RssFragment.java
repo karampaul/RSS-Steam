@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -70,7 +71,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	        AdRequest request = new AdRequest();
 	        adView.loadAd(request);
 	        //Fin meter publicidad 
-
+	        
 			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_refresh);
 
 			int height = mBitmap.getHeight();
