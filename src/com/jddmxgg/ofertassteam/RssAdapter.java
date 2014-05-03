@@ -59,7 +59,7 @@ public class RssAdapter extends BaseAdapter
 		String title = items.get(position).getTitle();
 		if (title.length() > 80)
 		{
-			title = title.substring(0, 80) + "&#8230;";
+			title = title.substring(0, 80) + "...";
 		}
 
 		holder.itemTitle.setText(title);
