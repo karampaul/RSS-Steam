@@ -68,10 +68,11 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		}.start();
 		Context context = this.getApplicationContext();
 		//FIN PUBLICIDAD
+		//Analitycs
 		EasyTracker tracker = EasyTracker.getInstance(context);
 		tracker.set(Fields.SCREEN_NAME, "Descripcion Activity");
 		tracker.send(MapBuilder.createAppView().build());
-		
+		//Fin analytics
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));
@@ -90,8 +91,10 @@ public class DescriptionActivity extends Activity implements OnClickListener
 	{
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		startActivity(intent);
+		//analytics
 		EasyTracker tracker = EasyTracker.getInstance(v.getContext());
 		tracker.set(Fields.SCREEN_NAME, "Abriendo Enlace");
 		tracker.send(MapBuilder.createAppView().build());
+		//fin analytics
 	}
 }
