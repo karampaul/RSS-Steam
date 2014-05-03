@@ -73,6 +73,8 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tracker.set(Fields.SCREEN_NAME, "Descripcion Activity");
 		tracker.send(MapBuilder.createAppView().build());
 		//Fin analytics
+		
+		
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));

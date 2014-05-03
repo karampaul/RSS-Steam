@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -76,6 +77,28 @@ public class RssAdapter extends BaseAdapter
 			month = "0" + month;
 		}
 		holder.itemDate.setText(day + "/" + month);
+		
+		//Prueba fotos
+		String link = items.get(position).getLink();
+		String domain = "";
+		if(link.substring(0,28).equals("http://feedproxy.google.com/"))
+		{
+			domain = "Huntgames";
+		}
+		if(link.substring(0,28).equals("http://ofertasdeunpanda.com/"))
+		{
+			domain = "Ofertas de un panda";
+		}
+		if(link.substring(0,23).equals("http://steamofertas.com"))//No rula
+		{
+			domain = "Steam Ofertas";
+		}
+		if(link.substring(0,26).equals("http://www.vayaansias.com/"))
+		{
+			domain = "Vaya ansias";
+		}
+		Log.d("domain",domain);
+		//FIN prueba fotos
 		
 		return convertView;
 	}
