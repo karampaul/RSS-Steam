@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RssAdapter extends BaseAdapter
@@ -84,18 +85,22 @@ public class RssAdapter extends BaseAdapter
 		if(link.substring(0,28).equals("http://feedproxy.google.com/"))
 		{
 			domain = "Huntgames";
+			//holder.imageFeed.setImageResource(R.drawable.cerdo_ico);
 		}
 		if(link.substring(0,28).equals("http://ofertasdeunpanda.com/"))
 		{
 			domain = "Ofertas de un panda";
+			//holder.imageFeed.setImageResource(R.drawable.panda_ico);
 		}
 		if(link.substring(0,23).equals("http://steamofertas.com"))//No rula
 		{
 			domain = "Steam Ofertas";
+			//holder.imageFeed.setImageResource(R.drawable.mono_ico);
 		}
 		if(link.substring(0,26).equals("http://www.vayaansias.com/"))
 		{
 			domain = "Vaya ansias";
+			//holder.imageFeed.setImageResource(R.drawable.ansias_ico);
 		}
 		Log.d("domain",domain);
 		//FIN prueba fotos
@@ -108,5 +113,6 @@ public class RssAdapter extends BaseAdapter
 		TextView itemTitle;
 		TextView itemDate;
 		View viewColor;
+		ImageView imageFeed;
 	}
 }
