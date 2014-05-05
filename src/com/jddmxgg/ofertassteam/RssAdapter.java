@@ -79,28 +79,14 @@ public class RssAdapter extends BaseAdapter
 
 		//Prueba fotos
 		String link = items.get(position).getLink();
-		String domain = "";
 		if (link.substring(0, 28).equals("http://feedproxy.google.com/"))
-		{
-			domain = "Huntgames";
 			holder.imageFeed.setImageResource(R.drawable.huntgames);
-		}
 		if (link.substring(0, 28).equals("http://ofertasdeunpanda.com/"))
-		{
-			domain = "Ofertas de un panda";
 			holder.imageFeed.setImageResource(R.drawable.ofertasdeunpanda);
-		}
-		if (link.substring(0, 23).equals("http://steamofertas.com"))//No rula
-		{
-			domain = "Steam Ofertas";
+		if (link.substring(0, 23).equals("http://steamofertas.com"))
 			holder.imageFeed.setImageResource(R.drawable.steamofertas);
-		}
 		if (link.substring(0, 26).equals("http://www.vayaansias.com/"))
-		{
-			domain = "Vaya ansias";
 			holder.imageFeed.setImageResource(R.drawable.vayaansias);
-		}
-		Constants.debug(domain);
 		//FIN prueba fotos
 
 		return convertView;
