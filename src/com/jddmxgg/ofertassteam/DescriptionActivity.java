@@ -108,7 +108,6 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("</ul>", "");
 			description = description.replaceAll(" •", "<br>•");
 			description = description.replaceAll(" - ", "<br>-");
-			description = description.replaceAll("Paga", "<br><br>Paga");
 		}			
 		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/")){
 			description = description.replaceAll("<img(.*?)\\>", "");
