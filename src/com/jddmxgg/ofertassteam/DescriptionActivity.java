@@ -114,9 +114,12 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("<li>", "");
 			description = description.replaceAll("<ul>", "");
 			description = description.replaceAll("</ul>", "");
-
-			Constants.debug(description);
-
+			description = description.replaceAll("Acceso anticipado.", "Acceso anticipado.<br><br>");
+			description = description.replaceAll("Pues eso.", "Pues eso.<br><br>");
+			description = description.replaceAll("Con la ", "<br>Con la ");
+			description = description.replaceAll("Y como ", "<br><br>Y como ");
+			description = description.replaceAll("Instucciones en los comentarios del enlace.", "Instrucciones en los comentarios del enlace.<br>");
+			description = description.replaceAll("\\.", ".<br>");			
 		}
 		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
 		{
