@@ -114,6 +114,9 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("<li>", "");
 			description = description.replaceAll("<ul>", "");
 			description = description.replaceAll("</ul>", "");
+
+			Constants.debug(description);
+
 		}
 		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
 		{
@@ -125,6 +128,17 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("<li>", "");
 			description = description.replaceAll("<ul>", "");
 			description = description.replaceAll("</ul>", "");
+			description = description.replaceAll("\\)", ")<br>");
+			description = description.replaceAll("Archivado en:", "<br><br>Archivado en:<br>");
+			description = description.replaceAll("\\(Cambio", "<br>(Cambio");
+			description = description.replaceAll("€ ", "€<br>• ");
+			description = description.replaceAll("horas:", "horas:<br><br>• ");
+			description = description.replaceAll("• <br><br>", "<br><br>");
+			description = description.replaceAll(". Chaos", "• Chaos");
+			description = description.replaceAll("1:", "1:<br><br>• ");
+			description = description.replaceAll(" €\\)", " €)<br>");
+			description = description.replaceAll("bundle:", "bundle:<br><br>");
+			description = description.replaceAll(" Precios sin aplicar Gala Points:", "Precios sin aplicar Gala Points:<br><br>");			
 		}
 		if (uri.toString().substring(0, 23).equals("http://steamofertas.com"))
 		{
@@ -139,6 +153,12 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll(" •", "<br>•");
 			description = description.replaceAll(" - ", "<br>-");
 			description = description.replaceAll("Paga", "<br><br>Paga");
+			description = description.replaceAll(" para: ", " para:<br>");
+			description = description.replaceAll("€ ", "€<br>");
+			description = description.replaceAll("amazon.com", "amazon.com<br>");
+			description = description.replaceAll("Contraofertas de amazon.com", "Contraofertas de amazon.com<br>");
+			description = description.replaceAll("Oferta diaria en Gamersgate:", "Oferta diaria en Gamersgate:<br><br>");
+			
 		}
 		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/"))
 		{
@@ -157,8 +177,12 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("</div><br /><a", "</div><a");
 			description = description.replaceAll("\\(<font", "<br>(<font");
 			description = description.replaceAll("\\(<FONT", "<br>(<FONT");
-			
-			Constants.debug(description);
+			description = description.replaceAll("<br>-- <a", "<br><a");
+			description = description.replaceAll("<br>--- <a", "<br><a");
+			description = description.replaceAll("<br>- <a", "<br><a");
+			description = description.replaceAll(". Oferta de 24 horas.", "<br><br>Oferta de 24 horas.<br>");
+			description = description.replaceAll("Resto de items y juegos sueltos al 90%", "<br><br>Resto de items y juegos sueltos al 90%");
+
 		}
 	}
 }

@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class Constants
 {
-	public static final String TAG = "Vayaansias";
+	public static final String TAG = "Huntegames";
 	public static final String ADD_ID = "";
 	private static final boolean DEBUG = true;
 	public static final String ADMOB_PUBLISHER_ID = "ca-app-pub-2689062467644026/9100777993";
