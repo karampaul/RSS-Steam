@@ -92,7 +92,7 @@ public class RssAdapter extends BaseAdapter
 			domain = "Ofertas de un panda";
 			//holder.imageFeed.setImageResource(R.drawable.panda_ico);
 		}
-		if(link.substring(0,23).equals("http://steamofertas.com"))//No rula
+		if(link.substring(0,23).equals("http://steamofertas.com"))
 		{
 			domain = "Steam Ofertas";
 			//holder.imageFeed.setImageResource(R.drawable.mono_ico);

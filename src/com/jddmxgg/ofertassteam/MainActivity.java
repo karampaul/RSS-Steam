@@ -21,7 +21,6 @@ public class MainActivity extends FragmentActivity
 		}
 		EasyTracker.getInstance(this).activityStart(this);
 	}
-
 	private void addRssFragment()
 	{
 		FragmentManager manager = getSupportFragmentManager();
@@ -38,26 +37,5 @@ public class MainActivity extends FragmentActivity
 	{
 		super.onSaveInstanceState(outState);
 		outState.putBoolean("fragment_added", true);
-	}
-	
-	
-	
-	
-	/****************
-	//@Override
-	  public void onStart() {
-	    super.onStart();
-	    ... // The rest of your onStart() code.
-	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-	  }
-
-	  //@Override
-	  public void onStop() {
-	    super.onStop();
-	    ... // The rest of your onStop() code.
-	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
-	  }
-	****************/
-	
-	
+	}	
 }
