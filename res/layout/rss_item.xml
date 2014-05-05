@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="85dp"
     android:background="#F0F0F0"
+    android:minHeight="100dp"
     android:orientation="horizontal" >
 
     <View
@@ -20,7 +21,7 @@
         android:layout_weight="3"
         android:contentDescription="@string/feed_image"
         android:background="@android:color/transparent"
-        android:src="@drawable/ofertasdeunpanda" />
+        android:src="@drawable/ic_launcher" />
 
     <LinearLayout
         android:layout_width="0dp"
