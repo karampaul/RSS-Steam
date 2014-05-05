@@ -10,6 +10,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,8 @@ public class DescriptionActivity extends Activity implements OnClickListener
 	private TextView tvTitle;
 	private TextView tvDescription;
 	private TextView tvDate;
-	private Button tvGoToPage;
+	private Button btnGoToPage;
+	private ImageView imgDescriptionWeb;
 
 	private Uri uri;
 	private String title;
@@ -43,7 +45,8 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tvTitle = (TextView) findViewById(R.id.descriptionTitle);
 		tvDescription = (TextView) findViewById(R.id.itemDescription);
 		tvDate = (TextView) findViewById(R.id.itemDate);
-		tvGoToPage = (Button) findViewById(R.id.btnGoToPage);
+		btnGoToPage = (Button) findViewById(R.id.btnGoToPage);
+		imgDescriptionWeb = (ImageView) findViewById(R.id.descriptionImage);
 		LinearLayout layout = (LinearLayout) findViewById(R.id.articulo);
 
 		//Publicidad 
@@ -73,57 +76,18 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tracker.set(Fields.SCREEN_NAME, "Descripcion Activity");
 		tracker.send(MapBuilder.createAppView().build());
 		//Fin analytics
-		
-		
+
 		title = getIntent().getExtras().getString("title");
 		description = getIntent().getExtras().getString("description");
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));
 		date = getIntent().getExtras().getString("date");
 
-		if (uri.toString().substring(0, 28).equals("http://feedproxy.google.com/")){
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-		}
-		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/")){
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-		}
-		if (uri.toString().substring(0, 23).equals("http://steamofertas.com")){
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll(" •", "<br>•");
-			description = description.replaceAll(" - ", "<br>-");
-			description = description.replaceAll("Paga", "<br><br>Paga");
-		}			
-		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/")){
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-		}
-		
+		manageDescriptionByFeed();
+
 		tvTitle.setText(title);
 		tvDate.setText(date);
 		tvDescription.setText(Html.fromHtml(description));
-		tvGoToPage.setOnClickListener(this);
+		btnGoToPage.setOnClickListener(this);
 	}
 
 	@Override
@@ -136,5 +100,56 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tracker.set(Fields.SCREEN_NAME, "Abriendo Enlace");
 		tracker.send(MapBuilder.createAppView().build());
 		//fin analytics
+	}
+	
+	private void manageDescriptionByFeed()
+	{
+		if (uri.toString().substring(0, 28).equals("http://feedproxy.google.com/"))
+		{
+			imgDescriptionWeb.setImageResource(R.drawable.huntgames);
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
+		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
+		{
+			imgDescriptionWeb.setImageResource(R.drawable.ofertasdeunpanda);
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
+		if (uri.toString().substring(0, 23).equals("http://steamofertas.com"))
+		{
+			imgDescriptionWeb.setImageResource(R.drawable.steamofertas);
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+			description = description.replaceAll(" ï¿½", "<br>ï¿½");
+			description = description.replaceAll(" - ", "<br>-");
+			description = description.replaceAll("Paga", "<br><br>Paga");
+		}
+		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/"))
+		{
+			imgDescriptionWeb.setImageResource(R.drawable.vayaansias);
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
 	}
 }

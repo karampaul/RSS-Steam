@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/articulo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0"
-    android:id="@+id/articulo"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -42,22 +42,39 @@
     <!-- android:layout_height="wrap_content" -->
     <!-- android:layout_weight="1" > -->
 
-    <TextView
-        android:id="@+id/descriptionTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        
-        android:gravity="center_horizontal"
-        android:paddingBottom="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="20dp"
+        android:layout_height="60dp"
         android:background="#C7C7C7"
-        android:text="@string/app_name"
-        android:textAlignment="viewStart"
-        android:textColor="#313131"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/descriptionImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/descriptionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:text="@string/app_name"
+            android:textAlignment="viewStart"
+            android:textColor="#313131"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <!-- </ScrollView> -->
 
     <View
