@@ -15,9 +15,10 @@
     <ImageView
         android:id="@+id/feedImage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_margin="5dp"
         android:layout_weight="3"
+        android:contentDescription="@string/feed_image"
         android:background="@android:color/transparent"
         android:src="@drawable/ofertasdeunpanda" />
 

@@ -2,7 +2,7 @@
 
 <resources>
   <!--Replace placeholder ID with your tracking ID-->
-  <string name="ga_trackingId">UA-50617597-1</string>
+  <string name="ga_trackingId">UA-50072156-3</string>
 
   <!--Enable automatic activity tracking-->
   <bool name="ga_autoActivityTracking">true</bool>
@@ -12,6 +12,6 @@
   
   <integer name="ga_dispatchPeriod">3</integer>
   <string name="ga_appName">Steam Ofertas</string>
-  <string name="ga_appVersion">1.0.2</string>  
+  <string name="ga_appVersion">1.0.4</string>  
   
 </resources>
