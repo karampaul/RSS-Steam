@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -52,6 +51,7 @@ public class RssAdapter extends BaseAdapter
 			holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
 			holder.viewColor = (View) convertView.findViewById(R.id.view_color);
 			holder.itemDate = (TextView) convertView.findViewById(R.id.date);
+			holder.imageFeed = (ImageView) convertView.findViewById(R.id.feedImage);
 			convertView.setTag(holder);
 		}
 		else
@@ -66,45 +66,43 @@ public class RssAdapter extends BaseAdapter
 
 		holder.itemTitle.setText(title);
 		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
-		
+
 		String day = "";
 		String month = "";
 		day = items.get(position).getDay();
-		month =  items.get(position).getMonth();
-		if(Integer.parseInt(day) < 10){
+		month = items.get(position).getMonth();
+		if (Integer.parseInt(day) < 10)
 			day = "0" + day;
-		}
-		if(Integer.parseInt(month) < 10){
+		if (Integer.parseInt(month) < 10)
 			month = "0" + month;
-		}
 		holder.itemDate.setText(day + "/" + month);
-		
+
 		//Prueba fotos
 		String link = items.get(position).getLink();
 		String domain = "";
-		if(link.substring(0,28).equals("http://feedproxy.google.com/"))
+		if (link.substring(0, 28).equals("http://feedproxy.google.com/"))
 		{
 			domain = "Huntgames";
-			//holder.imageFeed.setImageResource(R.drawable.cerdo_ico);
+			holder.imageFeed.setImageResource(R.drawable.huntgames);
 		}
-		if(link.substring(0,28).equals("http://ofertasdeunpanda.com/"))
+		if (link.substring(0, 28).equals("http://ofertasdeunpanda.com/"))
 		{
 			domain = "Ofertas de un panda";
-			//holder.imageFeed.setImageResource(R.drawable.panda_ico);
+			holder.imageFeed.setImageResource(R.drawable.ofertasdeunpanda);
 		}
-		if(link.substring(0,23).equals("http://steamofertas.com"))//No rula
+		if (link.substring(0, 23).equals("http://steamofertas.com"))//No rula
 		{
 			domain = "Steam Ofertas";
-			//holder.imageFeed.setImageResource(R.drawable.mono_ico);
+			holder.imageFeed.setImageResource(R.drawable.steamofertas);
 		}
-		if(link.substring(0,26).equals("http://www.vayaansias.com/"))
+		if (link.substring(0, 26).equals("http://www.vayaansias.com/"))
 		{
 			domain = "Vaya ansias";
-			//holder.imageFeed.setImageResource(R.drawable.ansias_ico);
+			holder.imageFeed.setImageResource(R.drawable.vayaansias);
 		}
-		Log.d("domain",domain);
+		Constants.debug(domain);
 		//FIN prueba fotos
-		
+
 		return convertView;
 	}
 
