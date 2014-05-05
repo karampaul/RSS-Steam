@@ -80,8 +80,46 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		uri = Uri.parse(getIntent().getExtras().getString("uri"));
 		date = getIntent().getExtras().getString("date");
 
-		description = description.replaceAll("<img(.*?)\\>", "");
-
+		if (uri.toString().substring(0, 28).equals("http://feedproxy.google.com/")){
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
+		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/")){
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
+		if (uri.toString().substring(0, 23).equals("http://steamofertas.com")){
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+			description = description.replaceAll(" •", "<br>•");
+			description = description.replaceAll(" - ", "<br>-");
+			description = description.replaceAll("Paga", "<br><br>Paga");
+		}			
+		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/")){
+			description = description.replaceAll("<img(.*?)\\>", "");
+			description = description.replaceAll("&lt", "<");
+			description = description.replaceAll("&gt", ">");
+			description = description.replaceAll("</li>", "<br><br>");
+			description = description.replaceAll("<li>", "");
+			description = description.replaceAll("<ul>", "");
+			description = description.replaceAll("</ul>", "");
+		}
+		
 		tvTitle.setText(title);
 		tvDate.setText(date);
 		tvDescription.setText(Html.fromHtml(description));
