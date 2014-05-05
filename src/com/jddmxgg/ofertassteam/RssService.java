@@ -62,8 +62,8 @@ public class RssService extends IntentService
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
 
-			Collections.sort(rssItems, new DayComparer());
 			Collections.reverse(rssItems);
+			Collections.sort(rssItems, new DayComparer());
 			Collections.sort(rssItems, new MonthComparer());
 			Collections.reverse(rssItems);
 
@@ -114,8 +114,9 @@ public class RssService extends IntentService
 		@Override
 		public int compare(RssItem item1, RssItem item2)
 		{
-
-			return item1.getMonth().compareTo(item2.getMonth());
+			Integer value1 = Integer.valueOf(item1.getMonth());
+			Integer value2 = Integer.valueOf(item2.getMonth());
+			return value1.compareTo(value2);
 		}
 	}
 
@@ -124,8 +125,9 @@ public class RssService extends IntentService
 		@Override
 		public int compare(RssItem item1, RssItem item2)
 		{
-
-			return item1.getDay().compareTo(item2.getDay());
+			Integer value1 = Integer.valueOf(item1.getDay());
+			Integer value2 = Integer.valueOf(item2.getDay());
+			return value1.compareTo(value2);
 		}
 	}
 }
