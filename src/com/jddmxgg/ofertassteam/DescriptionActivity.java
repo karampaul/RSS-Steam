@@ -136,7 +136,7 @@ public class DescriptionActivity extends Activity implements OnClickListener
 			description = description.replaceAll("<li>", "");
 			description = description.replaceAll("<ul>", "");
 			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll(" �", "<br>�");
+			description = description.replaceAll(" •", "<br>•");
 			description = description.replaceAll(" - ", "<br>-");
 			description = description.replaceAll("Paga", "<br><br>Paga");
 		}
