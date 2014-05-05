@@ -2,11 +2,6 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -32,6 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 
 public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
