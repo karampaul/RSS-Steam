@@ -177,7 +177,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 				
 		intent.putExtra("date", day + "/" + month);
 		startActivity(intent);
-		getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		getActivity().overridePendingTransition(R.anim.slide_in_left_activity, R.anim.slide_out_left_activity);
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String[]>

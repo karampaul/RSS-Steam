@@ -3,7 +3,13 @@
 
     <translate
         android:duration="@android:integer/config_mediumAnimTime"
-        android:fromXDelta="-100%p"
-        android:toXDelta="0" />
+        android:fromXDelta="0%p"
+        android:toXDelta="150%p" />
+    
+    <alpha
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="0.0" />
 
 </set>
