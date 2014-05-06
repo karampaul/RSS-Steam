@@ -1,14 +1,22 @@
 package com.jddmxgg.ofertassteam;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,8 +28,9 @@ import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.jddmxgg.ofertassteam.SimpleGestureFilter.SimpleGestureListener;
 
-public class DescriptionActivity extends Activity implements OnClickListener
+public class DescriptionActivity extends Activity implements OnClickListener, SimpleGestureListener, AnimationListener
 {
 
 	private TextView tvTitle;
@@ -29,12 +38,24 @@ public class DescriptionActivity extends Activity implements OnClickListener
 	private TextView tvDate;
 	private Button btnGoToPage;
 	private ImageView imgDescriptionWeb;
-
-	private Uri uri;
-	private String title;
-	private String description;
-	private String date;
+	private View mDescriptionColorView;
 	private AdView adView;
+	private Animation mHideSlideLeft;
+	private Animation mShowSlideLeft;
+	private Animation mShowSlideRight;
+	private Animation mHideSlideRight;
+	private LinearLayout mLayout;
+	private LinearLayout mAnimationLayout;
+
+	private Uri mUri;
+	private String mTitle;
+	private String mDescription;
+	private String mDate;
+	private String mColor;
+
+	private int mPosition;
+
+	private SimpleGestureFilter mDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -47,11 +68,20 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tvDate = (TextView) findViewById(R.id.itemDate);
 		btnGoToPage = (Button) findViewById(R.id.btnGoToPage);
 		imgDescriptionWeb = (ImageView) findViewById(R.id.descriptionImage);
-		LinearLayout layout = (LinearLayout) findViewById(R.id.articulo);
+		mDescriptionColorView = (View) findViewById(R.id.descriptionColor);
+		mLayout = (LinearLayout) findViewById(R.id.articulo);
+		mAnimationLayout = (LinearLayout) findViewById(R.id.animationLayout);
+
+		mHideSlideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_left);
+		mShowSlideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
+		mShowSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+		mHideSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
+
+		mDetector = new SimpleGestureFilter(this, this);
 
 		//Publicidad 
 		adView = new AdView(this, AdSize.BANNER, Constants.ADMOB_PUBLISHER_ID);
-		layout.addView(adView);
+		mLayout.addView(adView);
 		AdRequest request = new AdRequest();
 		adView.loadAd(request);
 		adView.setVisibility(View.GONE);
@@ -77,23 +107,21 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tracker.send(MapBuilder.createAppView().build());
 		//Fin analytics
 
-		title = getIntent().getExtras().getString("title");
-		description = getIntent().getExtras().getString("description");
-		uri = Uri.parse(getIntent().getExtras().getString("uri"));
-		date = getIntent().getExtras().getString("date");
+		mPosition = getIntent().getExtras().getInt("position");
 
-		manageDescriptionByFeed();
+		getItemInPosition(RssAdapter.mStaticItems, mPosition);
 
-		tvTitle.setText(title);
-		tvDate.setText(date);
-		tvDescription.setText(Html.fromHtml(description));
 		btnGoToPage.setOnClickListener(this);
+		mHideSlideLeft.setAnimationListener(this);
+		mShowSlideLeft.setAnimationListener(this);
+		mHideSlideRight.setAnimationListener(this);
+		mShowSlideRight.setAnimationListener(this);
 	}
 
 	@Override
 	public void onClick(View v)
 	{
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		Intent intent = new Intent(Intent.ACTION_VIEW, mUri);
 		startActivity(intent);
 		//analytics
 		EasyTracker tracker = EasyTracker.getInstance(v.getContext());
@@ -101,91 +129,183 @@ public class DescriptionActivity extends Activity implements OnClickListener
 		tracker.send(MapBuilder.createAppView().build());
 		//fin analytics
 	}
-	
+
+	private void loadTexts()
+	{
+		manageDescriptionByFeed();
+
+		tvTitle.setText(mTitle);
+		tvDate.setText(mDate);
+		mDescriptionColorView.setBackgroundColor(Color.parseColor(mColor));
+		tvDescription.setText(Html.fromHtml(mDescription));
+	}
+
 	private void manageDescriptionByFeed()
 	{
-		if (uri.toString().substring(0, 28).equals("http://feedproxy.google.com/"))
+		if (mUri.toString().substring(0, 28).equals("http://feedproxy.google.com/"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.huntgames);
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll("Acceso anticipado.", "Acceso anticipado.<br><br>");
-			description = description.replaceAll("Pues eso.", "Pues eso.<br><br>");
-			description = description.replaceAll("Con la ", "<br>Con la ");
-			description = description.replaceAll("Y como ", "<br><br>Y como ");
-			description = description.replaceAll("Instucciones en los comentarios del enlace.", "Instrucciones en los comentarios del enlace.<br>");
-			description = description.replaceAll("\\.", ".<br>");			
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
+			mDescription = mDescription.replaceAll("&lt", "<");
+			mDescription = mDescription.replaceAll("&gt", ">");
+			mDescription = mDescription.replaceAll("</li>", "<br><br>");
+			mDescription = mDescription.replaceAll("<li>", "");
+			mDescription = mDescription.replaceAll("<ul>", "");
+			mDescription = mDescription.replaceAll("</ul>", "");
+			mDescription = mDescription.replaceAll("Acceso anticipado.", "Acceso anticipado.<br><br>");
+			mDescription = mDescription.replaceAll("Pues eso.", "Pues eso.<br><br>");
+			mDescription = mDescription.replaceAll("Con la ", "<br>Con la ");
+			mDescription = mDescription.replaceAll("Y como ", "<br><br>Y como ");
+			mDescription = mDescription.replaceAll("Instucciones en los comentarios del enlace.", "Instrucciones en los comentarios del enlace.<br>");
+			mDescription = mDescription.replaceAll("\\.", ".<br>");
 		}
-		if (uri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
+		if (mUri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.ofertasdeunpanda);
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll("\\)", ")<br>");
-			description = description.replaceAll("Archivado en:", "<br><br>Archivado en:<br>");
-			description = description.replaceAll("\\(Cambio", "<br>(Cambio");
-			description = description.replaceAll("€ ", "€<br>• ");
-			description = description.replaceAll("horas:", "horas:<br><br>• ");
-			description = description.replaceAll("• <br><br>", "<br><br>");
-			description = description.replaceAll(". Chaos", "• Chaos");
-			description = description.replaceAll("1:", "1:<br><br>• ");
-			description = description.replaceAll(" €\\)", " €)<br>");
-			description = description.replaceAll("bundle:", "bundle:<br><br>");
-			description = description.replaceAll(" Precios sin aplicar Gala Points:", "Precios sin aplicar Gala Points:<br><br>");			
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
+			mDescription = mDescription.replaceAll("&lt", "<");
+			mDescription = mDescription.replaceAll("&gt", ">");
+			mDescription = mDescription.replaceAll("</li>", "<br><br>");
+			mDescription = mDescription.replaceAll("<li>", "");
+			mDescription = mDescription.replaceAll("<ul>", "");
+			mDescription = mDescription.replaceAll("</ul>", "");
+			mDescription = mDescription.replaceAll("\\)", ")<br>");
+			mDescription = mDescription.replaceAll("Archivado en:", "<br><br>Archivado en:<br>");
+			mDescription = mDescription.replaceAll("\\(Cambio", "<br>(Cambio");
+			mDescription = mDescription.replaceAll("€ ", "€<br>• ");
+			mDescription = mDescription.replaceAll("horas:", "horas:<br><br>• ");
+			mDescription = mDescription.replaceAll("• <br><br>", "<br><br>");
+			mDescription = mDescription.replaceAll(". Chaos", "• Chaos");
+			mDescription = mDescription.replaceAll("1:", "1:<br><br>• ");
+			mDescription = mDescription.replaceAll(" €\\)", " €)<br>");
+			mDescription = mDescription.replaceAll("bundle:", "bundle:<br><br>");
+			mDescription = mDescription.replaceAll(" Precios sin aplicar Gala Points:", "Precios sin aplicar Gala Points:<br><br>");
 		}
-		if (uri.toString().substring(0, 23).equals("http://steamofertas.com"))
+		if (mUri.toString().substring(0, 23).equals("http://steamofertas.com"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.steamofertas);
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll(" •", "<br>•");
-			description = description.replaceAll(" - ", "<br>-");
-			description = description.replaceAll("Paga", "<br><br>Paga");
-			description = description.replaceAll(" para: ", " para:<br>");
-			description = description.replaceAll("€ ", "€<br>");
-			description = description.replaceAll("amazon.com", "amazon.com<br>");
-			description = description.replaceAll("Contraofertas de amazon.com", "Contraofertas de amazon.com<br>");
-			description = description.replaceAll("Oferta diaria en Gamersgate:", "Oferta diaria en Gamersgate:<br><br>");
-			
-		}
-		if (uri.toString().substring(0, 26).equals("http://www.vayaansias.com/"))
-		{
-			imgDescriptionWeb.setImageResource(R.drawable.vayaansias);
-			description = description.replaceAll("<img(.*?)\\>", "");
-			description = description.replaceAll("&lt", "<");
-			description = description.replaceAll("&gt", ">");
-			description = description.replaceAll("</li>", "<br><br>");
-			description = description.replaceAll("<li>", "");
-			description = description.replaceAll("<ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll("</ul>", "");
-			description = description.replaceAll("</a> -", "</a><br>");
-			description = description.replaceAll("\\) \\(", ")<br>(");
-			description = description.replaceAll("<br /><div", "<div");
-			description = description.replaceAll("</div><br /><a", "</div><a");
-			description = description.replaceAll("\\(<font", "<br>(<font");
-			description = description.replaceAll("\\(<FONT", "<br>(<FONT");
-			description = description.replaceAll("<br>-- <a", "<br><a");
-			description = description.replaceAll("<br>--- <a", "<br><a");
-			description = description.replaceAll("<br>- <a", "<br><a");
-			description = description.replaceAll(". Oferta de 24 horas.", "<br><br>Oferta de 24 horas.<br>");
-			description = description.replaceAll("Resto de items y juegos sueltos al 90%", "<br><br>Resto de items y juegos sueltos al 90%");
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
+			mDescription = mDescription.replaceAll("&lt", "<");
+			mDescription = mDescription.replaceAll("&gt", ">");
+			mDescription = mDescription.replaceAll("</li>", "<br><br>");
+			mDescription = mDescription.replaceAll("<li>", "");
+			mDescription = mDescription.replaceAll("<ul>", "");
+			mDescription = mDescription.replaceAll("</ul>", "");
+			mDescription = mDescription.replaceAll(" •", "<br>•");
+			mDescription = mDescription.replaceAll(" - ", "<br>-");
+			mDescription = mDescription.replaceAll("Paga", "<br><br>Paga");
+			mDescription = mDescription.replaceAll(" para: ", " para:<br>");
+			mDescription = mDescription.replaceAll("€ ", "€<br>");
+			mDescription = mDescription.replaceAll("amazon.com", "amazon.com<br>");
+			mDescription = mDescription.replaceAll("Contraofertas de amazon.com", "Contraofertas de amazon.com<br>");
+			mDescription = mDescription.replaceAll("Oferta diaria en Gamersgate:", "Oferta diaria en Gamersgate:<br><br>");
 
 		}
+		if (mUri.toString().substring(0, 26).equals("http://www.vayaansias.com/"))
+		{
+			imgDescriptionWeb.setImageResource(R.drawable.vayaansias);
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
+			mDescription = mDescription.replaceAll("&lt", "<");
+			mDescription = mDescription.replaceAll("&gt", ">");
+			mDescription = mDescription.replaceAll("</li>", "<br><br>");
+			mDescription = mDescription.replaceAll("<li>", "");
+			mDescription = mDescription.replaceAll("<ul>", "");
+			mDescription = mDescription.replaceAll("</ul>", "");
+			mDescription = mDescription.replaceAll("</ul>", "");
+			mDescription = mDescription.replaceAll("</a> -", "</a><br>");
+			mDescription = mDescription.replaceAll("\\) \\(", ")<br>(");
+			mDescription = mDescription.replaceAll("<br /><div", "<div");
+			mDescription = mDescription.replaceAll("</div><br /><a", "</div><a");
+			mDescription = mDescription.replaceAll("\\(<font", "<br>(<font");
+			mDescription = mDescription.replaceAll("\\(<FONT", "<br>(<FONT");
+			mDescription = mDescription.replaceAll("<br>-- <a", "<br><a");
+			mDescription = mDescription.replaceAll("<br>--- <a", "<br><a");
+			mDescription = mDescription.replaceAll("<br>- <a", "<br><a");
+			mDescription = mDescription.replaceAll(". Oferta de 24 horas.", "<br><br>Oferta de 24 horas.<br>");
+			mDescription = mDescription.replaceAll("Resto de items y juegos sueltos al 90%", "<br><br>Resto de items y juegos sueltos al 90%");
+
+		}
+	}
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev)
+	{
+		this.mDetector.onTouchEvent(ev);
+		return super.dispatchTouchEvent(ev);
+	}
+
+	@Override
+	public void onSwipe(int direction)
+	{
+		switch (direction)
+		{
+			case SimpleGestureFilter.SWIPE_LEFT:
+				if (mPosition < RssAdapter.mStaticItems.size() - 1)
+				{
+					mPosition++;
+					mLayout.startAnimation(mHideSlideLeft);
+				}
+				break;
+			case SimpleGestureFilter.SWIPE_RIGHT:
+				if (mPosition > 0)
+				{
+					mPosition--;
+					mLayout.startAnimation(mHideSlideRight);
+				}
+				break;
+		}
+	}
+
+	@Override
+	public void onDoubleTap()
+	{
+	}
+
+	public void getItemInPosition(List<RssItem> items, int pos)
+	{
+		String day = "";
+		String month = "";
+		day = items.get(pos).getDay();
+		month = items.get(pos).getMonth();
+		if (Integer.parseInt(day) < 10)
+			day = "0" + day;
+		if (Integer.parseInt(month) < 10)
+			month = "0" + month;
+
+		mTitle = items.get(pos).getTitle();
+		mDate = day + "/" + month;
+		mDescription = items.get(pos).getDescription();
+		mUri = Uri.parse(items.get(pos).getLink());
+		mColor = items.get(pos).getColor();
+
+		loadTexts();
+	}
+
+	@Override
+	public void onAnimationStart(Animation animation)
+	{
+		mAnimationLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, tvTitle.getHeight()));
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation)
+	{
+		if (animation == mHideSlideLeft)
+		{
+			mLayout.startAnimation(mShowSlideLeft);
+			getItemInPosition(RssAdapter.mStaticItems, mPosition);
+		}
+		else if (animation == mShowSlideLeft || animation == mShowSlideRight)
+			mAnimationLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, tvTitle.getHeight()));
+		else if(animation == mHideSlideRight)
+		{
+			mLayout.startAnimation(mShowSlideRight);
+			getItemInPosition(RssAdapter.mStaticItems, mPosition);
+		}
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation)
+	{
 	}
 }

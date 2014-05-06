@@ -61,7 +61,7 @@ public class RssService extends IntentService
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_STEAMOFERTAS)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_OFERTASDEUNPANDA)));
 			rssItems.addAll(parser.parse(getInputStream(RSS_LINK_VAYAANSIAS)));
-
+			
 			Collections.reverse(rssItems);
 			Collections.sort(rssItems, new DayComparer());
 			Collections.sort(rssItems, new MonthComparer());

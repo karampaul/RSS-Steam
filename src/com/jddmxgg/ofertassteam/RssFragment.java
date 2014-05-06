@@ -159,9 +159,10 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		RssItem item = (RssItem) adapter.getItem(position);
 
 		Intent intent = new Intent(parent.getContext(), DescriptionActivity.class);
-		intent.putExtra("title", item.getTitle());
-		intent.putExtra("description", item.getDescription());
-		intent.putExtra("uri", item.getLink());
+//		intent.putExtra("title", item.getTitle());
+//		intent.putExtra("description", item.getDescription());
+//		intent.putExtra("uri", item.getLink());
+		intent.putExtra("position", position);
 		
 		String day = "";
 		String month = "";
@@ -176,6 +177,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 				
 		intent.putExtra("date", day + "/" + month);
 		startActivity(intent);
+		getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String[]>
@@ -203,6 +205,11 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mRefreshButton.startAnimation(mRotateAnimation);
 			new GetDataTask().execute();
 		}
+	}
+	
+	public static void next()
+	{
+		
 	}
 	
 }

@@ -13,25 +13,28 @@ import android.widget.TextView;
 public class RssAdapter extends BaseAdapter
 {
 
-	private final List<RssItem> items;
-	private final Context context;
+	private final List<RssItem> mItems;
+	private final Context mContext;
+	
+	public static List<RssItem> mStaticItems;
 
 	public RssAdapter(Context context, List<RssItem> items)
 	{
-		this.items = items;
-		this.context = context;
+		this.mItems = items;
+		this.mContext = context;
+		RssAdapter.mStaticItems = items;
 	}
 
 	@Override
 	public int getCount()
 	{
-		return items.size();
+		return mItems.size();
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return items.get(position);
+		return mItems.get(position);
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class RssAdapter extends BaseAdapter
 		ViewHolder holder;
 		if (convertView == null)
 		{
-			convertView = View.inflate(context, R.layout.rss_item, null);
+			convertView = View.inflate(mContext, R.layout.rss_item, null);
 			holder = new ViewHolder();
 			holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
 			holder.viewColor = (View) convertView.findViewById(R.id.view_color);
@@ -57,17 +60,17 @@ public class RssAdapter extends BaseAdapter
 		else
 			holder = (ViewHolder) convertView.getTag();
 		
-		String title = items.get(position).getTitle();
+		String title = mItems.get(position).getTitle();
 		if (title.length() > 80)
 			title = title.substring(0, 80) + "...";
 
 		holder.itemTitle.setText(title);
-		holder.viewColor.setBackgroundColor(Color.parseColor(items.get(position).getColor()));
+		holder.viewColor.setBackgroundColor(Color.parseColor(mItems.get(position).getColor()));
 
 		String day = "";
 		String month = "";
-		day = items.get(position).getDay();
-		month = items.get(position).getMonth();
+		day = mItems.get(position).getDay();
+		month = mItems.get(position).getMonth();
 		if (Integer.parseInt(day) < 10)
 			day = "0" + day;
 		if (Integer.parseInt(month) < 10)
@@ -75,7 +78,7 @@ public class RssAdapter extends BaseAdapter
 		holder.itemDate.setText(day + "/" + month);
 
 		//Prueba fotos
-		String link = items.get(position).getLink();
+		String link = mItems.get(position).getLink();
 		if (link.substring(0, 28).equals("http://feedproxy.google.com/"))
 			holder.imageFeed.setImageResource(R.drawable.huntgames);
 		if (link.substring(0, 28).equals("http://ofertasdeunpanda.com/"))
