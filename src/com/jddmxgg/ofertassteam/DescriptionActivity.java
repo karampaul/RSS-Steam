@@ -3,7 +3,6 @@ package com.jddmxgg.ofertassteam;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,20 +13,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.jddmxgg.ofertassteam.SimpleGestureFilter.SimpleGestureListener;
 
 public class DescriptionActivity extends Activity implements OnClickListener, SimpleGestureListener, AnimationListener
@@ -46,6 +48,7 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	private Animation mHideSlideRight;
 	private LinearLayout mLayout;
 	private LinearLayout mAnimationLayout;
+	private ProgressBar mProgressBar;
 
 	private Uri mUri;
 	private String mTitle;
@@ -61,6 +64,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.description_layout);
 
 		tvTitle = (TextView) findViewById(R.id.descriptionTitle);
@@ -70,6 +75,7 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		imgDescriptionWeb = (ImageView) findViewById(R.id.descriptionImage);
 		mDescriptionColorView = (View) findViewById(R.id.descriptionColor);
 		mLayout = (LinearLayout) findViewById(R.id.articulo);
+		mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 		mAnimationLayout = (LinearLayout) findViewById(R.id.animationLayout);
 
 		mHideSlideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_left);
@@ -78,11 +84,16 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		mHideSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
 
 		mDetector = new SimpleGestureFilter(this, this);
+		
+		mProgressBar.setMax(RssAdapter.mStaticItems.size() - 1);
 
 		//Publicidad 
-		adView = new AdView(this, AdSize.BANNER, Constants.ADMOB_PUBLISHER_ID);
+		adView = new AdView(this);
+		adView.setAdSize(AdSize.BANNER);
+		adView.setAdUnitId(Constants.ADMOB_PUBLISHER_ID);
+		
 		mLayout.addView(adView);
-		AdRequest request = new AdRequest();
+		AdRequest request = new AdRequest.Builder().build();
 		adView.loadAd(request);
 		adView.setVisibility(View.GONE);
 		new CountDownTimer(3000, 1000)
@@ -99,10 +110,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 				adView.setVisibility(View.VISIBLE);
 			}
 		}.start();
-		Context context = this.getApplicationContext();
-		//FIN PUBLICIDAD
 		//Analitycs
-		EasyTracker tracker = EasyTracker.getInstance(context);
+		EasyTracker tracker = EasyTracker.getInstance(getApplicationContext());
 		tracker.set(Fields.SCREEN_NAME, "Descripcion Activity");
 		tracker.send(MapBuilder.createAppView().build());
 		//Fin analytics
@@ -129,6 +138,27 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		tracker.send(MapBuilder.createAppView().build());
 		//fin analytics
 	}
+	
+	@Override
+	protected void onPause()
+	{
+		adView.pause();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		adView.resume();
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		adView.destroy();
+		super.onDestroy();
+	}
 
 	private void loadTexts()
 	{
@@ -138,6 +168,7 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		tvDate.setText(mDate);
 		mDescriptionColorView.setBackgroundColor(Color.parseColor(mColor));
 		tvDescription.setText(Html.fromHtml(mDescription));
+		mProgressBar.setProgress(mPosition);
 	}
 
 	private void manageDescriptionByFeed()
