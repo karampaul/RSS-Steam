@@ -40,6 +40,7 @@
             android:id="@+id/animationLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:animateLayoutChanges="true"
             android:background="#313131"
             android:orientation="horizontal" >
 
@@ -193,6 +194,14 @@
                 android:textColor="#313131"
                 android:textSize="18sp" />
         </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
 
         <Button
             android:id="@+id/btnGoToPage"

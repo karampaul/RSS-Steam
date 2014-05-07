@@ -2,6 +2,10 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -28,10 +32,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
-
 public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
 
@@ -44,12 +44,32 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private Bitmap mBitmap;
 	private AdView adView;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+	}
+
+	@Override
+	public void onPause()
+	{
+		adView.pause();
+		super.onPause();
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		adView.resume();
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		adView.destroy();
+		super.onDestroy();
 	}
 
 	@Override
@@ -62,15 +82,17 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
 			mRefreshButton.setEnabled(false);
-			
-			 //Inicio meter publicidad 
-	        adView = new AdView(getActivity(), AdSize.BANNER, Constants.ADMOB_PUBLISHER_ID);
-	        LinearLayout layout = (LinearLayout) mView.findViewById(R.id.listaprincipal);
-	        layout.addView(adView);
-	        AdRequest request = new AdRequest();
-	        adView.loadAd(request);
-	        //Fin meter publicidad 
-	        
+
+			//Inicio meter publicidad 
+			adView = new AdView(getActivity());
+			adView.setAdSize(AdSize.BANNER);
+			adView.setAdUnitId(Constants.ADMOB_PUBLISHER_ID);
+			LinearLayout layout = (LinearLayout) mView.findViewById(R.id.listaprincipal);
+			layout.addView(adView);
+			AdRequest request = new AdRequest.Builder().build();
+			adView.loadAd(request);
+			//Fin meter publicidad 
+
 			mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_refresh);
 
 			int height = mBitmap.getHeight();
@@ -159,22 +181,24 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		RssItem item = (RssItem) adapter.getItem(position);
 
 		Intent intent = new Intent(parent.getContext(), DescriptionActivity.class);
-//		intent.putExtra("title", item.getTitle());
-//		intent.putExtra("description", item.getDescription());
-//		intent.putExtra("uri", item.getLink());
+		//		intent.putExtra("title", item.getTitle());
+		//		intent.putExtra("description", item.getDescription());
+		//		intent.putExtra("uri", item.getLink());
 		intent.putExtra("position", position);
-		
+
 		String day = "";
 		String month = "";
 		day = item.getDay();
-		month =  item.getMonth();
-		if(Integer.parseInt(day) < 10){
+		month = item.getMonth();
+		if (Integer.parseInt(day) < 10)
+		{
 			day = "0" + day;
 		}
-		if(Integer.parseInt(month) < 10){
+		if (Integer.parseInt(month) < 10)
+		{
 			month = "0" + month;
 		}
-				
+
 		intent.putExtra("date", day + "/" + month);
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.slide_in_left_activity, R.anim.slide_out_left_activity);
@@ -206,10 +230,10 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			new GetDataTask().execute();
 		}
 	}
-	
+
 	public static void next()
 	{
-		
+
 	}
-	
+
 }

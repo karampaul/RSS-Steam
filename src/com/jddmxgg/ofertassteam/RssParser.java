@@ -33,7 +33,8 @@ public class RssParser
 		}
 		finally
 		{
-			inputStream.close();
+			if(inputStream != null)
+				inputStream.close();
 		}
 	}
 
