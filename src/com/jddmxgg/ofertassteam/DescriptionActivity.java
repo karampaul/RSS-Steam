@@ -42,10 +42,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	private ImageView imgDescriptionWeb;
 	private View mDescriptionColorView;
 	private AdView adView;
-	private Animation mHideSlideLeft;
-	private Animation mShowSlideLeft;
-	private Animation mShowSlideRight;
-	private Animation mHideSlideRight;
+	private Animation mFadeOut;
+	private Animation mFadeIn;
 	private LinearLayout mLayout;
 	private LinearLayout mAnimationLayout;
 	private ProgressBar mProgressBar;
@@ -78,10 +76,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 		mAnimationLayout = (LinearLayout) findViewById(R.id.animationLayout);
 
-		mHideSlideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_left);
-		mShowSlideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_left);
-		mShowSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
-		mHideSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
+		mFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+		mFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
 
 		mDetector = new SimpleGestureFilter(this, this);
 
@@ -121,10 +117,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		getItemInPosition(RssAdapter.mStaticItems, mPosition);
 
 		btnGoToPage.setOnClickListener(this);
-		mHideSlideLeft.setAnimationListener(this);
-		mShowSlideLeft.setAnimationListener(this);
-		mHideSlideRight.setAnimationListener(this);
-		mShowSlideRight.setAnimationListener(this);
+		mFadeOut.setAnimationListener(this);
+		mFadeIn.setAnimationListener(this);
 	}
 
 	@Override
@@ -270,14 +264,14 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 				if (mPosition < RssAdapter.mStaticItems.size() - 1)
 				{
 					mPosition++;
-					mLayout.startAnimation(mHideSlideLeft);
+					mLayout.startAnimation(mFadeOut);
 				}
 				break;
 			case SimpleGestureFilter.SWIPE_RIGHT:
 				if (mPosition > 0)
 				{
 					mPosition--;
-					mLayout.startAnimation(mHideSlideRight);
+					mLayout.startAnimation(mFadeOut);
 				}
 				break;
 		}
@@ -317,18 +311,13 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	@Override
 	public void onAnimationEnd(Animation animation)
 	{
-		if (animation == mHideSlideLeft)
+		if (animation == mFadeOut)
 		{
-			mLayout.startAnimation(mShowSlideLeft);
+			mLayout.startAnimation(mFadeIn);
 			getItemInPosition(RssAdapter.mStaticItems, mPosition);
 		}
-		else if (animation == mShowSlideLeft || animation == mShowSlideRight)
+		else if (animation == mFadeIn)
 			mAnimationLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, tvTitle.getHeight()));
-		else if (animation == mHideSlideRight)
-		{
-			mLayout.startAnimation(mShowSlideRight);
-			getItemInPosition(RssAdapter.mStaticItems, mPosition);
-		}
 	}
 
 	@Override
