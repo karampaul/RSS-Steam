@@ -20,9 +20,7 @@ public class MainActivity extends FragmentActivity
 		setContentView(R.layout.main);
 
 		if (savedInstanceState == null)
-		{
 			addRssFragment();
-		}
 		EasyTracker.getInstance(this).activityStart(this);
 	}
 	private void addRssFragment()

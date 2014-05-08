@@ -128,18 +128,19 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
-			AlertDialog.Builder dialog = new Builder(getActivity());
-			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
-			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
-			{
-
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-					getActivity().finish();
-				}
-			});
-			dialog.show();
+			
+//			AlertDialog.Builder dialog = new Builder(getActivity());
+//			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
+//			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
+//			{
+//
+//				@Override
+//				public void onClick(DialogInterface dialog, int which)
+//				{
+//					getActivity().finish();
+//				}
+//			});
+//			dialog.show();
 		}
 	}
 
@@ -181,9 +182,6 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		RssItem item = (RssItem) adapter.getItem(position);
 
 		Intent intent = new Intent(parent.getContext(), DescriptionActivity.class);
-		//		intent.putExtra("title", item.getTitle());
-		//		intent.putExtra("description", item.getDescription());
-		//		intent.putExtra("uri", item.getLink());
 		intent.putExtra("position", position);
 
 		String day = "";
