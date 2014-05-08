@@ -3,6 +3,7 @@ package com.jddmxgg.ofertassteam;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SQLiteHelper extends SQLiteOpenHelper
 {
 
-	String mCreateTable = "CREATE TABLE FEED(id INTEGER, title TEXT, description TEXT, link TEXT, month TEXT, day TEXT, color TEXT, PRIMARY KEY(id))";
+	String mCreateTable = "CREATE TABLE FEED(id INTEGER, title TEXT, description BLOB, link TEXT, month TEXT, day TEXT, color TEXT, PRIMARY KEY(id))";
 
 	public SQLiteHelper(Context context, String name, CursorFactory factory, int version)
 	{
@@ -54,7 +55,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 
 	public void insertValues(List<RssItem> items)
 	{
-		String sql, title, description, link, month, day, color;
+		ContentValues cv = new ContentValues();
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("DROP TABLE IF EXISTS FEED");
@@ -62,15 +63,14 @@ public class SQLiteHelper extends SQLiteOpenHelper
 
 		for (RssItem item : items)
 		{
-			title = item.getTitle();
-			description = item.getDescription();
-			link = item.getLink();
-			month = item.getMonth();
-			day = item.getDay();
-			color = item.getColor();
-			sql = "INSERT INTO FEED(title,description, link, month, day, color) VALUES ('" + title + "','" + description + "','" + link + "','" + month + "','" + day + "','" + color + "')";
-			db.execSQL(sql);
+			cv.put("title", item.getTitle());
+			cv.put("description", item.getDescription());
+			cv.put("link", item.getLink());
+			cv.put("month", item.getMonth());
+			cv.put("day", item.getDay());
+			cv.put("color", item.getColor());
+			db.insert("FEED", null, cv);
 		}
-
+		db.close();
 	}
 }
