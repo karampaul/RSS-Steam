@@ -122,7 +122,8 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		if (Constants.internetConnectionEnabled(getActivity()))
 		{
 			RssService.setDatabase(mDBHelper);
-			mIntent = new Intent(getActivity(), RssService.class);
+			if(mIntent == null)
+				mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);
 		}
@@ -168,7 +169,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private void reloadService(Intent i)
 	{
 		getActivity().stopService(i);
-		getActivity().startService(mIntent);
+		startService();
 	}
 
 	/**
