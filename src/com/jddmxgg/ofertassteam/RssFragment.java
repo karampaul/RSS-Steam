@@ -130,7 +130,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		{
 			mProgressBar.setVisibility(View.GONE);
 			List<RssItem> items = mDBHelper.getValues();
-			if (items != null)
+			if (items != null && !items.isEmpty())
 			{
 				
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
