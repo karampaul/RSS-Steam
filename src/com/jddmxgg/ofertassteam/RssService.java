@@ -12,8 +12,6 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.skillath.supersonicfingers.utils.SQLiteHelper;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +33,11 @@ public class RssService extends IntentService
 	private String mColor = Constants.Colors.PURPLE.getColor();
 	private ArrayList<Constants.Colors> Colors = new ArrayList<Constants.Colors>(Arrays.asList(Constants.Colors.values()));
 	private int pos = 0;
+	
+	public static void setDatabase(SQLiteHelper db)
+	{
+		mDB = db;
+	}
 
 	public RssService()
 	{

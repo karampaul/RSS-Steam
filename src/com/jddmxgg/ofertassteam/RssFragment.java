@@ -31,7 +31,7 @@ import com.google.android.gms.ads.AdView;
 
 public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
-	private SQLiteHelper mDBHelper = new SQLiteHelper(getActivity(), "Feed", null, 1);
+	private SQLiteHelper mDBHelper;
 	private ProgressBar mProgressBar;
 	private ListView mListView;
 	private ImageButton mRefreshButton;
@@ -45,6 +45,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		mDBHelper = new SQLiteHelper(getActivity().getApplicationContext(), "Feed", null, 1);
 		setRetainInstance(true);
 	}
 
@@ -99,7 +100,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mRotateAnimation.setInterpolator(new LinearInterpolator());
 			mRotateAnimation.setRepeatCount(Animation.INFINITE);
 			mRotateAnimation.setDuration(5000);
-
+			
 			mListView.setOnItemClickListener(this);
 			mRefreshButton.setOnClickListener(this);
 			startService();
@@ -119,6 +120,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	{
 		if (Constants.internetConnectionEnabled(getActivity()))
 		{
+			RssService.setDatabase(mDBHelper);
 			mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);

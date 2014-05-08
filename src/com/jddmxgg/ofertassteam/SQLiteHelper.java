@@ -68,7 +68,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 			month = item.getMonth();
 			day = item.getDay();
 			color = item.getColor();
-			sql = "INSERT INTO FEED(title,description, link, month, day, color) VALUES (" + title + "," + description + "," + link + "," + month + "," + day + "," + color + ")";
+			sql = "INSERT INTO FEED(title,description, link, month, day, color) VALUES ('" + title + "','" + description + "','" + link + "','" + month + "','" + day + "','" + color + "')";
 			db.execSQL(sql);
 		}
 
