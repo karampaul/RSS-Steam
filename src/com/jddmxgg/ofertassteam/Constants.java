@@ -9,7 +9,7 @@ public class Constants
 {
 	public static final String TAG = "Ofertas Steam";
 	public static final String ADD_ID = "";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	public static final String ADMOB_PUBLISHER_ID = "ca-app-pub-2689062467644026/9100777993";
 
 	
