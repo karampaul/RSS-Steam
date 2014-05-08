@@ -65,7 +65,7 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.description_layout);
 
 		tvTitle = (TextView) findViewById(R.id.descriptionTitle);
@@ -84,14 +84,14 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		mHideSlideRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
 
 		mDetector = new SimpleGestureFilter(this, this);
-		
+
 		mProgressBar.setMax(RssAdapter.mStaticItems.size() - 1);
 
 		//Publicidad 
 		adView = new AdView(this);
 		adView.setAdSize(AdSize.BANNER);
 		adView.setAdUnitId(Constants.ADMOB_PUBLISHER_ID);
-		
+
 		mLayout.addView(adView);
 		AdRequest request = new AdRequest.Builder().build();
 		adView.loadAd(request);
@@ -138,21 +138,21 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		tracker.send(MapBuilder.createAppView().build());
 		//fin analytics
 	}
-	
+
 	@Override
 	protected void onPause()
 	{
 		adView.pause();
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
 		adView.resume();
 	}
-	
+
 	@Override
 	protected void onDestroy()
 	{
@@ -176,85 +176,81 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		if (mUri.toString().substring(0, 28).equals("http://feedproxy.google.com/"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.huntgames);
-			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
-			mDescription = mDescription.replaceAll("&lt", "<");
-			mDescription = mDescription.replaceAll("&gt", ">");
-			mDescription = mDescription.replaceAll("</li>", "<br><br>");
-			mDescription = mDescription.replaceAll("<li>", "");
-			mDescription = mDescription.replaceAll("<ul>", "");
-			mDescription = mDescription.replaceAll("</ul>", "");
-			mDescription = mDescription.replaceAll("Acceso anticipado.", "Acceso anticipado.<br><br>");
-			mDescription = mDescription.replaceAll("Pues eso.", "Pues eso.<br><br>");
-			mDescription = mDescription.replaceAll("Con la ", "<br>Con la ");
-			mDescription = mDescription.replaceAll("Y como ", "<br><br>Y como ");
-			mDescription = mDescription.replaceAll("Instucciones en los comentarios del enlace.", "Instrucciones en los comentarios del enlace.<br>");
-			mDescription = mDescription.replaceAll("\\.", ".<br>");
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "")
+					.replaceAll("&lt", "<")
+					.replaceAll("&gt", ">")
+					.replaceAll("</li>", "<br><br>")
+					.replaceAll("<li>", "")
+					.replaceAll("<ul>", "")
+					.replaceAll("</ul>", "")
+					.replaceAll("Acceso anticipado.", "Acceso anticipado.<br><br>")
+					.replaceAll("Pues eso.", "Pues eso.<br><br>")
+					.replaceAll("Con la ", "<br>Con la ")
+					.replaceAll("Y como ", "<br><br>Y como ")
+					.replaceAll("Instucciones en los comentarios del enlace.", "Instrucciones en los comentarios del enlace.<br>")
+					.replaceAll("\\.", ".<br>");
 		}
 		if (mUri.toString().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.ofertasdeunpanda);
-			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
-			mDescription = mDescription.replaceAll("&lt", "<");
-			mDescription = mDescription.replaceAll("&gt", ">");
-			mDescription = mDescription.replaceAll("</li>", "<br><br>");
-			mDescription = mDescription.replaceAll("<li>", "");
-			mDescription = mDescription.replaceAll("<ul>", "");
-			mDescription = mDescription.replaceAll("</ul>", "");
-			mDescription = mDescription.replaceAll("\\)", ")<br>");
-			mDescription = mDescription.replaceAll("Archivado en:", "<br><br>Archivado en:<br>");
-			mDescription = mDescription.replaceAll("\\(Cambio", "<br>(Cambio");
-			mDescription = mDescription.replaceAll("€ ", "€<br>• ");
-			mDescription = mDescription.replaceAll("horas:", "horas:<br><br>• ");
-			mDescription = mDescription.replaceAll("• <br><br>", "<br><br>");
-			mDescription = mDescription.replaceAll(". Chaos", "• Chaos");
-			mDescription = mDescription.replaceAll("1:", "1:<br><br>• ");
-			mDescription = mDescription.replaceAll(" €\\)", " €)<br>");
-			mDescription = mDescription.replaceAll("bundle:", "bundle:<br><br>");
-			mDescription = mDescription.replaceAll(" Precios sin aplicar Gala Points:", "Precios sin aplicar Gala Points:<br><br>");
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "")
+					.replaceAll("&lt", "<").replaceAll("&gt", ">")
+					.replaceAll("</li>", "<br><br>")
+					.replaceAll("<li>", "")
+					.replaceAll("<ul>", "")
+					.replaceAll("</ul>", "")
+					.replaceAll("\\)", ")<br>")
+					.replaceAll("Archivado en:", "<br><br>Archivado en:<br>")
+					.replaceAll("\\(Cambio", "<br>(Cambio")
+					.replaceAll("€ ", "€<br>• ")
+					.replaceAll("horas:", "horas:<br><br>• ")
+					.replaceAll("• <br><br>", "<br><br>")
+					.replaceAll(". Chaos", "• Chaos")
+					.replaceAll("1:", "1:<br><br>• ")
+					.replaceAll(" €\\)", " €)<br>")
+					.replaceAll("bundle:", "bundle:<br><br>")
+					.replaceAll(" Precios sin aplicar Gala Points:", "Precios sin aplicar Gala Points:<br><br>");
 		}
 		if (mUri.toString().substring(0, 23).equals("http://steamofertas.com"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.steamofertas);
-			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
-			mDescription = mDescription.replaceAll("&lt", "<");
-			mDescription = mDescription.replaceAll("&gt", ">");
-			mDescription = mDescription.replaceAll("</li>", "<br><br>");
-			mDescription = mDescription.replaceAll("<li>", "");
-			mDescription = mDescription.replaceAll("<ul>", "");
-			mDescription = mDescription.replaceAll("</ul>", "");
-			mDescription = mDescription.replaceAll(" •", "<br>•");
-			mDescription = mDescription.replaceAll(" - ", "<br>-");
-			mDescription = mDescription.replaceAll("Paga", "<br><br>Paga");
-			mDescription = mDescription.replaceAll(" para: ", " para:<br>");
-			mDescription = mDescription.replaceAll("€ ", "€<br>");
-			mDescription = mDescription.replaceAll("amazon.com", "amazon.com<br>");
-			mDescription = mDescription.replaceAll("Contraofertas de amazon.com", "Contraofertas de amazon.com<br>");
-			mDescription = mDescription.replaceAll("Oferta diaria en Gamersgate:", "Oferta diaria en Gamersgate:<br><br>");
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "")
+					.replaceAll("&lt", "<").replaceAll("&gt", ">")
+					.replaceAll("</li>", "<br><br>")
+					.replaceAll("<li>", "")
+					.replaceAll("<ul>", "")
+					.replaceAll("</ul>", "")
+					.replaceAll(" •", "<br>•")
+					.replaceAll(" - ", "<br>-")
+					.replaceAll("Paga", "<br><br>Paga")
+					.replaceAll(" para: ", " para:<br>").replaceAll("€ ", "€<br>")
+					.replaceAll("amazon.com", "amazon.com<br>")
+					.replaceAll("Contraofertas de amazon.com", "Contraofertas de amazon.com<br>")
+					.replaceAll("Oferta diaria en Gamersgate:", "Oferta diaria en Gamersgate:<br><br>");
 
 		}
 		if (mUri.toString().substring(0, 26).equals("http://www.vayaansias.com/"))
 		{
 			imgDescriptionWeb.setImageResource(R.drawable.vayaansias);
-			mDescription = mDescription.replaceAll("<img(.*?)\\>", "");
-			mDescription = mDescription.replaceAll("&lt", "<");
-			mDescription = mDescription.replaceAll("&gt", ">");
-			mDescription = mDescription.replaceAll("</li>", "<br><br>");
-			mDescription = mDescription.replaceAll("<li>", "");
-			mDescription = mDescription.replaceAll("<ul>", "");
-			mDescription = mDescription.replaceAll("</ul>", "");
-			mDescription = mDescription.replaceAll("</ul>", "");
-			mDescription = mDescription.replaceAll("</a> -", "</a><br>");
-			mDescription = mDescription.replaceAll("\\) \\(", ")<br>(");
-			mDescription = mDescription.replaceAll("<br /><div", "<div");
-			mDescription = mDescription.replaceAll("</div><br /><a", "</div><a");
-			mDescription = mDescription.replaceAll("\\(<font", "<br>(<font");
-			mDescription = mDescription.replaceAll("\\(<FONT", "<br>(<FONT");
-			mDescription = mDescription.replaceAll("<br>-- <a", "<br><a");
-			mDescription = mDescription.replaceAll("<br>--- <a", "<br><a");
-			mDescription = mDescription.replaceAll("<br>- <a", "<br><a");
-			mDescription = mDescription.replaceAll(". Oferta de 24 horas.", "<br><br>Oferta de 24 horas.<br>");
-			mDescription = mDescription.replaceAll("Resto de items y juegos sueltos al 90%", "<br><br>Resto de items y juegos sueltos al 90%");
-
+			mDescription = mDescription.replaceAll("<img(.*?)\\>", "")
+					.replaceAll("&lt", "<")
+					.replaceAll("&gt", ">")
+					.replaceAll("</li>", "<br><br>")
+					.replaceAll("<li>", "")
+					.replaceAll("<ul>", "")
+					.replaceAll("</ul>", "")
+					.replaceAll("</ul>", "")
+					.replaceAll("</a> -", "</a><br>")
+					.replaceAll("\\) \\(", ")<br>(")
+					.replaceAll("<br /><div", "<div")
+					.replaceAll("</div><br /><a", "</div><a")
+					.replaceAll("\\(<font", "<br>(<font")
+					.replaceAll("\\(<FONT", "<br>(<FONT")
+					.replaceAll("<br>-- <a", "<br><a")
+					.replaceAll("<br>--- <a", "<br><a")
+					.replaceAll("<br>- <a", "<br><a")
+					.replaceAll(". Oferta de 24 horas.", "<br><br>Oferta de 24 horas.<br>")
+					.replaceAll("Resto de items y juegos sueltos al 90%", "<br><br>Resto de items y juegos sueltos al 90%");
 		}
 	}
 
@@ -328,7 +324,7 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 		}
 		else if (animation == mShowSlideLeft || animation == mShowSlideRight)
 			mAnimationLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, tvTitle.getHeight()));
-		else if(animation == mHideSlideRight)
+		else if (animation == mHideSlideRight)
 		{
 			mLayout.startAnimation(mShowSlideRight);
 			getItemInPosition(RssAdapter.mStaticItems, mPosition);
