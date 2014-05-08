@@ -2,6 +2,8 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -79,7 +81,6 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
-			mRefreshButton.setEnabled(false);
 
 			//Inicio meter publicidad 
 			adView = new AdView(getActivity());
@@ -127,29 +128,40 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
+			mProgressBar.setVisibility(View.GONE);
 			List<RssItem> items = mDBHelper.getValues();
 			if (items != null)
 			{
+				
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
 				mRefreshButton.setEnabled(false);
 			}
 			else
 			{
-				Toast.makeText(getActivity(), "An error occured while downloading the rss feed.", Toast.LENGTH_LONG).show();
+				AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+				dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
+				dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss();
+					}
+				});
+				dialog.setNegativeButton(getActivity().getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						getActivity().finish();
+					}
+				});
+				dialog.show();
 			}
-//			AlertDialog.Builder dialog = new Builder(getActivity());
-//			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
-//			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
-//			{
-//
-//				@Override
-//				public void onClick(DialogInterface dialog, int which)
-//				{
-//					getActivity().finish();
-//				}
-//			});
-//			dialog.show();
+
 		}
 	}
 
