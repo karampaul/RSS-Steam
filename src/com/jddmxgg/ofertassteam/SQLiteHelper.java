@@ -71,6 +71,5 @@ public class SQLiteHelper extends SQLiteOpenHelper
 			cv.put("color", item.getColor());
 			db.insert("FEED", null, cv);
 		}
-		db.close();
 	}
 }
