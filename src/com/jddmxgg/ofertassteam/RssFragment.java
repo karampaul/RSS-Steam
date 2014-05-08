@@ -168,7 +168,11 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 
 	private void reloadService(Intent i)
 	{
-		getActivity().stopService(i);
+		if(i != null)
+		{
+			getActivity().stopService(i);
+			
+		}
 		startService();
 	}
 
@@ -244,10 +248,35 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	@Override
 	public void onClick(View v)
 	{
-		if (v.getId() == R.id.btnRefresh)
+		if ( v.getId() == R.id.btnRefresh)
 		{
-			mRefreshButton.startAnimation(mRotateAnimation);
-			new GetDataTask().execute();
+			if(Constants.internetConnectionEnabled(getActivity())){
+				mRefreshButton.startAnimation(mRotateAnimation);
+				new GetDataTask().execute();
+			}
+			else{
+				AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+				dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
+				dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss();
+					}
+				});
+				dialog.setNegativeButton(getActivity().getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						getActivity().finish();
+					}
+				});
+				dialog.show();
+			}
 		}
 	}
 
