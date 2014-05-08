@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.skillath.supersonicfingers.utils.SQLiteHelper;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +22,7 @@ import android.util.Log;
 
 public class RssService extends IntentService
 {
-
+	private static SQLiteHelper mDB;
 	private static final String RSS_LINK_HUNTGAMES = "http://feeds.feedburner.com/Huntgames_es?format=xml";
 	private static final String RSS_LINK_STEAMOFERTAS = "http://steamofertas.com/feed/";
 	private static final String RSS_LINK_OFERTASDEUNPANDA = "http://ofertasdeunpanda.com/feed/";
@@ -68,6 +70,8 @@ public class RssService extends IntentService
 			Collections.reverse(rssItems);
 
 			setColors();
+			if(rssItems != null)
+				mDB.insertValues(rssItems);
 		}
 		catch (XmlPullParserException e)
 		{

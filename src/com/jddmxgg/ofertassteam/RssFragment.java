@@ -2,13 +2,6 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,9 +25,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
-
+	private SQLiteHelper mDBHelper = new SQLiteHelper(getActivity(), "Feed", null, 1);
 	private ProgressBar mProgressBar;
 	private ListView mListView;
 	private ImageButton mRefreshButton;
@@ -128,7 +125,17 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
-			
+			List<RssItem> items = mDBHelper.getValues();
+			if (items != null)
+			{
+				RssAdapter adapter = new RssAdapter(getActivity(), items);
+				mListView.setAdapter(adapter);
+				mRefreshButton.setEnabled(false);
+			}
+			else
+			{
+				Toast.makeText(getActivity(), "An error occured while downloading the rss feed.", Toast.LENGTH_LONG).show();
+			}
 //			AlertDialog.Builder dialog = new Builder(getActivity());
 //			dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
 //			dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
