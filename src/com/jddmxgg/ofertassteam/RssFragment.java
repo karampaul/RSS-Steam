@@ -1,14 +1,8 @@
 package com.jddmxgg.ofertassteam;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -107,25 +101,20 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mRotateAnimation.setInterpolator(new LinearInterpolator());
 			mRotateAnimation.setRepeatCount(Animation.INFINITE);
 			mRotateAnimation.setDuration(5000);
-
+			
 			mListView.setOnItemClickListener(this);
 			mRefreshButton.setOnClickListener(this);
 			startService();
 		}
 		else
 		{
+			// If we are returning from a configuration change:
+			// "view" is still attached to the previous view hierarchy
+			// so we need to remove it and re-attach it to the current one
 			ViewGroup parent = (ViewGroup) mView.getParent();
 			parent.removeView(mView);
 		}
 		return mView;
-	}
-
-	public void scheduleAlarm()
-	{
-		Long time = new GregorianCalendar().getTimeInMillis() + 60 * 60 * 1000;
-		Intent intentAlarm = new Intent(getActivity().getApplicationContext(), AlarmReceiver.class);
-		AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, time, PendingIntent.getBroadcast(getActivity().getApplicationContext(), 1, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void startService()
@@ -133,7 +122,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		if (Constants.internetConnectionEnabled(getActivity()))
 		{
 			RssService.setDatabase(mDBHelper);
-			if (mIntent == null)
+			if(mIntent == null)
 				mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);
@@ -144,7 +133,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			List<RssItem> items = mDBHelper.getValues();
 			if (items != null && !items.isEmpty())
 			{
-
+				
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
 				mRefreshButton.setEnabled(false);
@@ -177,9 +166,9 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 	}
 
-	public void reloadService(Intent i)
+	private void reloadService(Intent i)
 	{
-		if (i != null)
+		if(i != null)
 			getActivity().stopService(i);
 		startService();
 	}
@@ -238,7 +227,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		protected void onPostExecute(String[] result)
 		{
 			super.onPostExecute(result);
-			//mRotateAnimation.cancel();
+			mRotateAnimation.cancel();
 		}
 
 		@Override
@@ -252,16 +241,14 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	@Override
 	public void onClick(View v)
 	{
-		if (v.getId() == R.id.btnRefresh)
+		if ( v.getId() == R.id.btnRefresh)
 		{
 			mRefreshButton.setEnabled(false);
-			if (Constants.internetConnectionEnabled(getActivity()))
-			{
+			if(Constants.internetConnectionEnabled(getActivity())){
 				mRefreshButton.startAnimation(mRotateAnimation);
 				new GetDataTask().execute();
 			}
-			else
-			{
+			else{
 				AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 				dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
 				dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
@@ -287,59 +274,9 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 	}
 
-	public class AlarmReceiver extends BroadcastReceiver
+	public static void next()
 	{
-		List<RssItem> currentItems;
-		List<RssItem> items;
 
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			if (Constants.internetConnectionEnabled(context))
-			{
-				if (mIntent != null)
-					getActivity().stopService(mIntent);
-				currentItems = mDBHelper.getValues();
-				RssService.setDatabase(mDBHelper);
-				if (mIntent == null)
-					mIntent = new Intent(getActivity(), RssService.class);
-				mIntent.putExtra(RssService.RECEIVER, resultReceiver);
-				getActivity().startService(mIntent);
-			}
-			scheduleAlarm();
-		}
-
-		/**
-		 * Once the {@link RssService} finishes its task, the result is sent to
-		 * this ResultReceiver.
-		 */
-		private final ResultReceiver resultReceiver = new ResultReceiver(new Handler())
-		{
-			@SuppressWarnings("unchecked")
-			@Override
-			protected void onReceiveResult(int resultCode, Bundle resultData)
-			{
-				items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
-				if (items != null)
-				{
-					if (!items.containsAll(currentItems))
-						launchNotification("¡Nuevas ofertas!", "Haz click aquí para ver las nuevas ofertas.");
-				}
-			};
-		};
-
-		@SuppressWarnings("deprecation")
-		private void launchNotification(String notificationTitle, String notificationMessage)
-		{
-			@SuppressWarnings("static-access")
-			NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-			android.app.Notification notification = new android.app.Notification(R.drawable.ic_launcher, "A New Message from Dipak Keshariya (Android Developer)!", System.currentTimeMillis());
-
-			Intent notificationIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-			PendingIntent pendingIntent = PendingIntent.getActivity(getActivity().getApplicationContext(), 0, notificationIntent, 0);
-			notification.setLatestEventInfo(getActivity().getApplicationContext(), notificationTitle, notificationMessage, pendingIntent);
-			notificationManager.notify(10001, notification);
-		}
 	}
 
 }
