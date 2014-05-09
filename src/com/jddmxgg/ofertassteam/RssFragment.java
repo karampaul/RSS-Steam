@@ -212,13 +212,9 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		day = item.getDay();
 		month = item.getMonth();
 		if (Integer.parseInt(day) < 10)
-		{
 			day = "0" + day;
-		}
 		if (Integer.parseInt(month) < 10)
-		{
 			month = "0" + month;
-		}
 
 		intent.putExtra("date", day + "/" + month);
 		startActivity(intent);
