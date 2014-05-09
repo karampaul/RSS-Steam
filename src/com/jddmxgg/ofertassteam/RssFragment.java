@@ -169,10 +169,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private void reloadService(Intent i)
 	{
 		if(i != null)
-		{
 			getActivity().stopService(i);
-			
-		}
 		startService();
 	}
 
@@ -250,6 +247,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	{
 		if ( v.getId() == R.id.btnRefresh)
 		{
+			mRefreshButton.setEnabled(false);
 			if(Constants.internetConnectionEnabled(getActivity())){
 				mRefreshButton.startAnimation(mRotateAnimation);
 				new GetDataTask().execute();
