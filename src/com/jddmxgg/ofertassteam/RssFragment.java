@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
@@ -24,7 +25,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -34,7 +34,6 @@ import com.google.android.gms.ads.AdView;
 public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
 {
 	private SQLiteHelper mDBHelper;
-	private ProgressBar mProgressBar;
 	private LinearLayout mSplashScreen;
 	private ListView mListView;
 	private ImageButton mRefreshButton;
@@ -43,6 +42,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	private RotateAnimation mRotateAnimation;
 	private Bitmap mBitmap;
 	private AdView adView;
+	private Animation mAnimation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -79,10 +79,10 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		if (mView == null)
 		{
 			mView = inflater.inflate(R.layout.fragment_layout, container, false);
-			mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
 			mSplashScreen = (LinearLayout) mView.findViewById(R.id.splashScreen);
+			mAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
 
 			//Inicio meter publicidad 
 			adView = new AdView(getActivity());
