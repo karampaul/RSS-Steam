@@ -8,5 +8,8 @@
     <string name="go_web">Click para saber más…</string>
     <string name="feed_image">Imagen del domino</string>
     <string name="msg_no_internet">No tiene internet. Conéctese a internet y recarge la aplicación.</string>
-
+	<string name="huntgames">Huntgames</string>
+	<string name="vayaansias">Vaya Ansias</string>
+	<string name="panda">Ofertas de un Panda</string>
+	<string name="steamofertas">Steam Ofertas</string>
 </resources>
