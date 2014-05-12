@@ -91,7 +91,7 @@ public class RssAdapter extends BaseAdapter
 
 		return convertView;
 	}
-
+	
 	static class ViewHolder
 	{
 		TextView itemTitle;

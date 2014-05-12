@@ -1,5 +1,6 @@
 package com.jddmxgg.ofertassteam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -24,6 +25,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -44,6 +46,8 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	private Bitmap mBitmap;
 	private AdView adView;
 	private Animation mAnimation;
+	private CheckBox mOfertasDeUnPanda, mVayaAnsias, mSteamOfertas, mHuntgames;
+	private List<RssItem> mAllItems;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -132,11 +136,11 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		else
 		{
 			mSplashScreen.startAnimation(mAnimation);
-			List<RssItem> items = mDBHelper.getValues();
-			if (items != null && !items.isEmpty())
+			mAllItems = mDBHelper.getValues();
+			if (mAllItems != null && !mAllItems.isEmpty())
 			{
 
-				RssAdapter adapter = new RssAdapter(getActivity(), items);
+				RssAdapter adapter = new RssAdapter(getActivity(), mAllItems);
 				mListView.setAdapter(adapter);
 			}
 			else
@@ -186,10 +190,10 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		protected void onReceiveResult(int resultCode, Bundle resultData)
 		{
 			mSplashScreen.startAnimation(mAnimation);
-			List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
-			if (items != null)
+			mAllItems = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
+			if (mAllItems != null)
 			{
-				RssAdapter adapter = new RssAdapter(getActivity(), items);
+				RssAdapter adapter = new RssAdapter(getActivity(), mAllItems);
 				mListView.setAdapter(adapter);
 			}
 			else
@@ -227,6 +231,18 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		final Dialog dialog = new Dialog(context);
 		dialog.setContentView(R.layout.filter);
 		dialog.setTitle(getActivity().getResources().getString(R.string.filter));
+		dialog.setCancelable(false);
+
+		mVayaAnsias = (CheckBox) dialog.findViewById(R.id.ch_vayaansias);
+		mHuntgames = (CheckBox) dialog.findViewById(R.id.ch_huntgames);
+		mOfertasDeUnPanda = (CheckBox) dialog.findViewById(R.id.ch_panda);
+		mSteamOfertas = (CheckBox) dialog.findViewById(R.id.ch_steamofertas);
+
+		mVayaAnsias.setChecked(true);
+		mHuntgames.setChecked(true);
+		mOfertasDeUnPanda.setChecked(true);
+		mSteamOfertas.setChecked(true);
+
 		Button ok = (Button) dialog.findViewById(R.id.filter_ok);
 		ok.setOnClickListener(new OnClickListener()
 		{
@@ -234,11 +250,37 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			@Override
 			public void onClick(View v)
 			{
-				// TODO Auto-generated method stub
+				filter(mVayaAnsias.isChecked(), mHuntgames.isChecked(), mOfertasDeUnPanda.isChecked(), mSteamOfertas.isChecked());
 				dialog.dismiss();
 			}
 		});
+
 		dialog.show();
+	}
+
+	public void filter(boolean vayaansias, boolean huntgames, boolean ofertasdeunpanda, boolean steamofertas)
+	{
+		List<RssItem> filteredList = new ArrayList<RssItem>();
+		if (mAllItems != null)
+		{
+			for (RssItem item : mAllItems)
+			{
+				if (huntgames)
+					if (item.getLink().substring(0, 28).equals("http://feedproxy.google.com/"))
+						filteredList.add(item);
+				if (vayaansias)
+					if (item.getLink().substring(0, 26).equals("http://www.vayaansias.com/"))
+						filteredList.add(item);
+				if (ofertasdeunpanda)
+					if (item.getLink().substring(0, 28).equals("http://ofertasdeunpanda.com/"))
+						filteredList.add(item);
+				if (steamofertas)
+					if (item.getLink().substring(0, 23).equals("http://steamofertas.com"))
+						filteredList.add(item);
+			}
+		}
+		if (filteredList != null)
+			mListView.setAdapter(new RssAdapter(getActivity().getApplicationContext(), filteredList));
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class RssService extends IntentService
 
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
-	List<RssItem> rssItems = null;
+	public static List<RssItem> rssItems = null;
 
 	private String mColor = Constants.Colors.PURPLE.getColor();
 	private ArrayList<Constants.Colors> Colors = new ArrayList<Constants.Colors>(Arrays.asList(Constants.Colors.values()));

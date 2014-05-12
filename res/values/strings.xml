@@ -18,4 +18,10 @@
 	<string name="steamofertas">Steam Ofertas</string>
 	<string name="finish">Salir</string>
 	<string name="filter">Filtrar</string>
+	<string name="mensaje">App hecha para jugones ahorradores. No somos propietarios de ninguna web que aparezca en esta app.</string>
+	<string name="developers">Desarrolladores</string>
+	<string name="skillath">Xabier Gonzalez Goienetxea</string>
+	<string name="jedelwey">José David Durán Martos</string>
+	<string name="elpreciodelaluz">El Precio de la Luz</string>
+	<string name="SupersonicFingers">Supersonic Fingers</string>
 </resources>
