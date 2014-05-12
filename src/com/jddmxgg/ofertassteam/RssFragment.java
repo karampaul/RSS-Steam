@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,11 +27,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener, AnimationListener
+public class RssFragment extends SherlockFragment implements OnItemClickListener, OnClickListener, AnimationListener
 {
 	private SQLiteHelper mDBHelper;
 	private LinearLayout mSplashScreen;
