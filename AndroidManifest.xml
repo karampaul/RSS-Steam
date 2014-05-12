@@ -41,7 +41,6 @@
 
         <service android:name=".RssService" />
 
-        <receiver android:name="com.jddmxgg.ofertassteam.RssFragment$AlarmReceiver" />
     </application>
 
 </manifest>
