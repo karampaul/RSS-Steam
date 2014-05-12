@@ -22,5 +22,8 @@
     <string name="action_label_bak_none">None</string>
     <string name="action_label_bak_gradient">Gradient</string>
     <string name="action_label_bak_image">Image</string>
-
+	<string name="huntgames">Huntgames</string>
+	<string name="vayaansias">Vaya Ansias</string>
+	<string name="panda">Ofertas de un Panda</string>
+	<string name="steamofertas">Steam Ofertas</string>
 </resources>
