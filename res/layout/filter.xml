@@ -4,29 +4,90 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <CheckBox
-        android:id="@+id/ch_huntgames"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/huntgames" />
+        android:orientation="horizontal"
+        android:layout_margin="5dp" >
 
-    <CheckBox
-        android:id="@+id/ch_panda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/panda" />
+        <ImageView
+            android:id="@+id/ch_img_huntgames"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/feed_image"
+            android:src="@drawable/huntgames" />
 
-    <CheckBox
-        android:id="@+id/ch_steamofertas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/steamofertas" />
+        <CheckBox
+            android:id="@+id/ch_huntgames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/ch_img_huntgames"
+            android:text="@string/huntgames" />
+    </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/ch_vayaansias"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/vayaansias" />
+        android:orientation="horizontal" 
+        android:layout_margin="5dp">
+		
+        <ImageView
+            android:id="@+id/ch_img_panda"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/feed_image"
+            android:src="@drawable/ofertasdeunpanda" />
+        
+        <CheckBox
+            android:id="@+id/ch_panda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/panda" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_margin="5dp">
+		
+		<ImageView
+            android:id="@+id/ch_img_steamofertas"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/feed_image"
+            android:src="@drawable/steamofertas" />
+		
+        <CheckBox
+            android:id="@+id/ch_steamofertas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/steamofertas" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/ch_img_vayaansias"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/feed_image"
+            android:src="@drawable/vayaansias" />
+        
+        <CheckBox
+            android:id="@+id/ch_vayaansias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vayaansias" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/filter_ok"
