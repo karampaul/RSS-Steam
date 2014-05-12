@@ -35,6 +35,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 {
 	private SQLiteHelper mDBHelper;
 	private ProgressBar mProgressBar;
+	private LinearLayout mSplashScreen;
 	private ListView mListView;
 	private ImageButton mRefreshButton;
 	private View mView;
@@ -81,6 +82,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
+			mSplashScreen = (LinearLayout) mView.findViewById(R.id.splashScreen);
 
 			//Inicio meter publicidad 
 			adView = new AdView(getActivity());
@@ -129,7 +131,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
-			mProgressBar.setVisibility(View.GONE);
+			mSplashScreen.setVisibility(View.GONE);
 			List<RssItem> items = mDBHelper.getValues();
 			if (items != null && !items.isEmpty())
 			{
@@ -183,7 +185,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData)
 		{
-			mProgressBar.setVisibility(View.GONE);
+			mSplashScreen.setVisibility(View.GONE);
 			List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
 			if (items != null)
 			{
