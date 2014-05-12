@@ -15,7 +15,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class MainActivity extends SherlockFragmentActivity implements OnMenuItemClickListener
+public class MainActivity extends SherlockFragmentActivity 
 {
 	private boolean useLogo = false;
 	private boolean showHomeUp = false;
@@ -47,8 +47,10 @@ public class MainActivity extends SherlockFragmentActivity implements OnMenuItem
 		getSupportMenuInflater().inflate(R.menu.main_menu, menu);
 
 		// set up a listener for the refresh item
-		final MenuItem refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
-		refresh.setOnMenuItemClickListener(this);
+		//		final MenuItem refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
+		//
+		//		refresh.setOnMenuItemClickListener(this);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -70,7 +72,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnMenuItem
 	}
 
 	@Override
-	public boolean onMenuItemClick(MenuItem item)
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
@@ -102,9 +104,31 @@ public class MainActivity extends SherlockFragmentActivity implements OnMenuItem
 					dialog.show();
 				}
 				break;
+			case R.id.menu_option_about_us:
+				break;
+			case R.id.menu_option_salir:
+				finish();
+				break;
+			case R.id.menu_option_filter:
+				item.collapseActionView();
+				if (mFragment != null)
+					mFragment.showFilter(this);
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 		return false;
 	}
+
+	//	@Override
+	//	public boolean onMenuItemClick(MenuItem item)
+	//	{
+	//		switch (item.getItemId())
+	//		{
+	//			
+	//		}
+	//		return false;
+	//	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String[]>
 	{

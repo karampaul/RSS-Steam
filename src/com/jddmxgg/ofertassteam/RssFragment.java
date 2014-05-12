@@ -3,6 +3,8 @@ package com.jddmxgg.ofertassteam;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -20,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -99,7 +103,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			mRotateAnimation.setInterpolator(new LinearInterpolator());
 			mRotateAnimation.setRepeatCount(Animation.INFINITE);
 			mRotateAnimation.setDuration(5000);
-			
+
 			mListView.setOnItemClickListener(this);
 			mAnimation.setAnimationListener(this);
 			startService();
@@ -120,7 +124,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		if (Constants.internetConnectionEnabled(getActivity()))
 		{
 			RssService.setDatabase(mDBHelper);
-			if(mIntent == null)
+			if (mIntent == null)
 				mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);
@@ -131,7 +135,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			List<RssItem> items = mDBHelper.getValues();
 			if (items != null && !items.isEmpty())
 			{
-				
+
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
 			}
@@ -165,9 +169,10 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 
 	public void reloadService(Intent i)
 	{
-		if(i != null)
+		if (i != null)
 			getActivity().stopService(i);
 		startService();
+		mSplashScreen.setVisibility(View.GONE);
 	}
 
 	/**
@@ -217,10 +222,29 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		getActivity().overridePendingTransition(R.anim.slide_in_left_activity, R.anim.slide_out_left_activity);
 	}
 
+	public void showFilter(Context context)
+	{
+		final Dialog dialog = new Dialog(context);
+		dialog.setContentView(R.layout.filter);
+		dialog.setTitle(getActivity().getResources().getString(R.string.filter));
+		Button ok = (Button) dialog.findViewById(R.id.filter_ok);
+		ok.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+
 	@Override
 	public void onAnimationStart(Animation arg)
 	{
-		
+
 	}
 
 	@Override
@@ -232,7 +256,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	@Override
 	public void onAnimationRepeat(Animation animation)
 	{
-		
+
 	}
 
 }

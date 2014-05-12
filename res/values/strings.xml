@@ -11,9 +11,11 @@
     <string name="action_label_refresh">Refresh</string>
     <string name="action_label_logo">Logo</string>
     <string name="config_options">Filtrar blogs</string>
-    <string name="about_us">Acerca de nosotros</string>
+    <string name="about_us">Sobre nosotros</string>
 	<string name="huntgames">Huntgames</string>
 	<string name="vayaansias">Vaya Ansias</string>
 	<string name="panda">Ofertas de un Panda</string>
 	<string name="steamofertas">Steam Ofertas</string>
+	<string name="finish">Salir</string>
+	<string name="filter">Filtrar</string>
 </resources>

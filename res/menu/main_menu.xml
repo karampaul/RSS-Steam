@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!--
+     Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,43 +15,38 @@
      limitations under the License.
 -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <!-- icon  refresh -->
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always"
+        android:title="@string/action_label_refresh"/>
 
-	<!-- icon  refresh-->
-	<item android:id="@+id/menu_refresh" android:showAsAction="ifRoom"
-		android:title="@string/action_label_refresh" android:icon="@drawable/ic_menu_refresh_holo_light" />
+    <!-- Feed filtrer submenu -->
+    <item
+        android:id="@+id/menu_nav"
+        android:icon="@drawable/ic_action_overflow"
+        android:showAsAction="always"
+        android:title="@string/config_options">
+        <menu>
+            <item
+                android:id="@+id/menu_option_filter"
+                android:title="@string/filter"/>
+            <item
+                android:id="@+id/menu_option_about_us"
+                android:title="@string/about_us"/>
+                        <item
+                android:id="@+id/menu_option_salir"
+                android:title="@string/finish"/>
+        </menu>
+    </item>
 
-	<!-- Feed filtrer submenu -->
-	<item android:id="@+id/menu_nav" android:title="@string/config_options">
-		<menu>
-			<group android:id="@+id/menu_nav_group"
-				android:checkableBehavior="single">
-				
-				<item 
-				    android:id="@+id/menu_option_huntgames" 
-				    android:title="@string/huntgames" 
-				    android:checkable="true"/>
-
-				<item 
-				    android:id="@+id/menu_option_ofertasdeunpanda" 
-				    android:title="@string/panda" 
-				    android:checkable="true"/>
-
-				<item 
-				    android:id="@+id/menu_option_steamofertas" 
-				    android:title="@string/steamofertas"
-				    android:checkable="true"/>
-				<item 
-				    android:id="@+id/menu_option_vayaansias" 
-				    android:title="@string/vayaansias"
-				    android:checkable="true"/>
-			</group>
-		</menu>
-	</item>
-
-	<!-- about us submenu -->
-	<item android:id="@+id/menu_bak" android:title="@string/about_us">
-	</item>
+    <!-- about us submenu -->
+    <item
+        android:id="@+id/menu_bak"
+        android:title="@string/about_us">
+    </item>
 
 </menu>
