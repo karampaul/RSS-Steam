@@ -126,6 +126,7 @@ public class MainActivity extends SherlockFragmentActivity
 				Button exit = (Button) dialog.findViewById(R.id.btn_about_us);
 				ExpandableListView lv = (ExpandableListView) dialog.findViewById(R.id.expandableListView);
 				lv.setAdapter(listAdapter);
+				
 
 				lv.setOnChildClickListener(new OnChildClickListener()
 				{

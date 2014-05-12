@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +55,7 @@ public class ExpandibleListViewAdapter extends BaseExpandableListAdapter
 		TextView txtListChild = (TextView) convertView.findViewById(R.id.list_item_app);
 
 		txtListChild.setText(childText);
+		txtListChild.setTextColor(Color.BLACK);
 		return convertView;
 	}
 
@@ -93,6 +96,7 @@ public class ExpandibleListViewAdapter extends BaseExpandableListAdapter
 		TextView lblListHeader = (TextView) convertView.findViewById(R.id.list_group_name);
 		lblListHeader.setTypeface(null, Typeface.BOLD);
 		lblListHeader.setText(headerTitle);
+		lblListHeader.setTextColor(Color.BLACK);
 
 		return convertView;
 	}
