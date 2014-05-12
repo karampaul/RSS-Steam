@@ -2,7 +2,6 @@ package com.jddmxgg.ofertassteam;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -24,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -32,7 +32,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.jddmxgg.ofertassteam.SimpleGestureFilter.SimpleGestureListener;
 
-public class DescriptionActivity extends Activity implements OnClickListener, SimpleGestureListener, AnimationListener
+public class DescriptionActivity extends SherlockActivity implements OnClickListener, SimpleGestureListener, AnimationListener
 {
 
 	private TextView tvTitle;
@@ -62,8 +62,8 @@ public class DescriptionActivity extends Activity implements OnClickListener, Si
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.description_layout);
 
 		tvTitle = (TextView) findViewById(R.id.descriptionTitle);

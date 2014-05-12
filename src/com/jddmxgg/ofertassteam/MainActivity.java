@@ -1,7 +1,10 @@
 package com.jddmxgg.ofertassteam;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,11 +15,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class MainActivity extends SherlockFragmentActivity
+public class MainActivity extends SherlockFragmentActivity implements OnMenuItemClickListener
 {
-	private final Handler handler = new Handler();
 	private boolean useLogo = false;
 	private boolean showHomeUp = false;
+	private RssFragment mFragment;
+	private Intent mIntent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -44,22 +48,7 @@ public class MainActivity extends SherlockFragmentActivity
 
 		// set up a listener for the refresh item
 		final MenuItem refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
-		refresh.setOnMenuItemClickListener(new OnMenuItemClickListener()
-		{
-			// on selecting show progress spinner for 1s
-			public boolean onMenuItemClick(MenuItem item)
-			{
-				// item.setActionView(R.layout.progress_action);
-				handler.postDelayed(new Runnable()
-				{
-					public void run()
-					{
-						refresh.setActionView(null);
-					}
-				}, 1000);
-				return false;
-			}
-		});
+		refresh.setOnMenuItemClickListener(this);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -67,10 +56,9 @@ public class MainActivity extends SherlockFragmentActivity
 	{
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
-		RssFragment fragment = new RssFragment();
-		transaction.add(R.id.fragment_container, fragment);
+		mFragment = new RssFragment();
+		transaction.add(R.id.fragment_container, mFragment);
 		transaction.commit();
-		//Google Analytics
 		EasyTracker.getInstance(this).activityStart(this);
 	}
 
@@ -79,5 +67,59 @@ public class MainActivity extends SherlockFragmentActivity
 	{
 		super.onSaveInstanceState(outState);
 		outState.putBoolean("fragment_added", true);
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.menu_refresh:
+				if (Constants.internetConnectionEnabled(this))
+					new GetDataTask().execute();
+				else
+				{
+					AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+					dialog.setMessage(getResources().getString(R.string.msg_no_internet));
+					dialog.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
+					{
+
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{
+							dialog.dismiss();
+						}
+					});
+					dialog.setNegativeButton(getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener()
+					{
+
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{
+							finish();
+						}
+					});
+					dialog.show();
+				}
+				break;
+		}
+		return false;
+	}
+
+	private class GetDataTask extends AsyncTask<Void, Void, String[]>
+	{
+		@Override
+		protected void onPostExecute(String[] result)
+		{
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected String[] doInBackground(Void... params)
+		{
+			if (mFragment != null)
+				mFragment.reloadService(mIntent);
+			return null;
+		}
 	}
 }

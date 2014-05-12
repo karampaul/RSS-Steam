@@ -7,13 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -22,7 +20,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,12 +29,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-public class RssFragment extends SherlockFragment implements OnItemClickListener, OnClickListener, AnimationListener
+public class RssFragment extends SherlockFragment implements OnItemClickListener, AnimationListener
 {
 	private SQLiteHelper mDBHelper;
 	private LinearLayout mSplashScreen;
 	private ListView mListView;
-	private ImageButton mRefreshButton;
 	private View mView;
 	private Intent mIntent;
 	private RotateAnimation mRotateAnimation;
@@ -81,7 +77,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		{
 			mView = inflater.inflate(R.layout.fragment_layout, container, false);
 			mListView = (ListView) mView.findViewById(R.id.listView);
-			mRefreshButton = (ImageButton) mView.findViewById(R.id.btnRefresh);
 			mSplashScreen = (LinearLayout) mView.findViewById(R.id.splashScreen);
 			mAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
 
@@ -106,7 +101,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			mRotateAnimation.setDuration(5000);
 			
 			mListView.setOnItemClickListener(this);
-			mRefreshButton.setOnClickListener(this);
 			mAnimation.setAnimationListener(this);
 			startService();
 		}
@@ -140,7 +134,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 				
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
-				mRefreshButton.setEnabled(false);
 			}
 			else
 			{
@@ -170,7 +163,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		}
 	}
 
-	private void reloadService(Intent i)
+	public void reloadService(Intent i)
 	{
 		if(i != null)
 			getActivity().stopService(i);
@@ -193,7 +186,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			{
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				mListView.setAdapter(adapter);
-				mRefreshButton.setEnabled(true);
 			}
 			else
 			{
@@ -225,66 +217,8 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		getActivity().overridePendingTransition(R.anim.slide_in_left_activity, R.anim.slide_out_left_activity);
 	}
 
-	private class GetDataTask extends AsyncTask<Void, Void, String[]>
-	{
-		@Override
-		protected void onPostExecute(String[] result)
-		{
-			super.onPostExecute(result);
-			mRotateAnimation.cancel();
-		}
-
-		@Override
-		protected String[] doInBackground(Void... params)
-		{
-			reloadService(mIntent);
-			return null;
-		}
-	}
-
 	@Override
-	public void onClick(View v)
-	{
-		if ( v.getId() == R.id.btnRefresh)
-		{
-			mRefreshButton.setEnabled(false);
-			if(Constants.internetConnectionEnabled(getActivity())){
-				mRefreshButton.startAnimation(mRotateAnimation);
-				new GetDataTask().execute();
-			}
-			else{
-				AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-				dialog.setMessage(getActivity().getResources().getString(R.string.msg_no_internet));
-				dialog.setPositiveButton(getActivity().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener()
-				{
-
-					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
-						dialog.dismiss();
-					}
-				});
-				dialog.setNegativeButton(getActivity().getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener()
-				{
-
-					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
-						getActivity().finish();
-					}
-				});
-				dialog.show();
-			}
-		}
-	}
-
-	public static void next()
-	{
-
-	}
-
-	@Override
-	public void onAnimationStart(Animation animation)
+	public void onAnimationStart(Animation arg)
 	{
 		
 	}
