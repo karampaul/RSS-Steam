@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -31,7 +32,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener
+public class RssFragment extends Fragment implements OnItemClickListener, OnClickListener, AnimationListener
 {
 	private SQLiteHelper mDBHelper;
 	private LinearLayout mSplashScreen;
@@ -106,6 +107,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 			
 			mListView.setOnItemClickListener(this);
 			mRefreshButton.setOnClickListener(this);
+			mAnimation.setAnimationListener(this);
 			startService();
 		}
 		else
@@ -131,7 +133,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		}
 		else
 		{
-			mSplashScreen.setVisibility(View.GONE);
+			mSplashScreen.startAnimation(mAnimation);
 			List<RssItem> items = mDBHelper.getValues();
 			if (items != null && !items.isEmpty())
 			{
@@ -185,7 +187,7 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData)
 		{
-			mSplashScreen.setVisibility(View.GONE);
+			mSplashScreen.startAnimation(mAnimation);
 			List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
 			if (items != null)
 			{
@@ -279,6 +281,24 @@ public class RssFragment extends Fragment implements OnItemClickListener, OnClic
 	public static void next()
 	{
 
+	}
+
+	@Override
+	public void onAnimationStart(Animation animation)
+	{
+		
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation)
+	{
+		mSplashScreen.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation)
+	{
+		
 	}
 
 }
