@@ -26,10 +26,10 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -61,7 +61,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		super.onCreate(savedInstanceState);
 		mDBHelper = new SQLiteHelper(getActivity().getApplicationContext(), "Feed", null, 1);
 		setRetainInstance(true);
-		MainActivity.refresh.setEnabled(false);
 	}
 
 	@Override
@@ -91,9 +90,12 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		if (mView == null)
 		{
 			mView = inflater.inflate(R.layout.fragment_layout, container, false);
+			
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mSplashScreen = (LinearLayout) mView.findViewById(R.id.splashScreen);
 			mAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
+			
+			MainActivity.mActionBar.hide();
 
 			//Inicio meter publicidad 
 			adView = new AdView(getActivity());
@@ -139,7 +141,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 				mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);
-			MainActivity.refresh.setEnabled(true);
 		}
 		else
 		{
@@ -173,7 +174,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 					}
 				});
 				dialog.show();
-				MainActivity.refresh.setEnabled(true);
 			}
 
 		}
@@ -181,12 +181,14 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 
 	public void reloadService(Intent i)
 	{
-		MainActivity.refresh.setEnabled(false);
 		if (i != null)
 			getActivity().stopService(i);
 		startService();
 		if(mSplashScreen.getVisibility() != View.GONE)
+		{
+			MainActivity.mActionBar.show();
 			mSplashScreen.setVisibility(View.GONE);
+		}
 	}
 
 	/**
@@ -373,6 +375,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	@Override
 	public void onAnimationEnd(Animation animation)
 	{
+		MainActivity.mActionBar.show();
 		mSplashScreen.setVisibility(View.GONE);
 	}
 

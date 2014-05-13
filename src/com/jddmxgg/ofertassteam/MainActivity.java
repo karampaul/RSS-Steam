@@ -26,22 +26,23 @@ public class MainActivity extends SherlockFragmentActivity
 	private boolean showHomeUp = false;
 	private RssFragment mFragment;
 	public static MenuItem refresh;
+	public static ActionBar mActionBar;
 	private Intent mIntent;
 	private List<String> listDataHeader;
 	private HashMap<String, List<String>> listDataChild;
 	private final Handler handler = new Handler();
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		final ActionBar ab = getSupportActionBar();
+		mActionBar = getSupportActionBar();
 
 		// set defaults for logo & home up
-		ab.setDisplayHomeAsUpEnabled(showHomeUp);
-		ab.setDisplayUseLogoEnabled(useLogo);
+		mActionBar.setDisplayHomeAsUpEnabled(showHomeUp);
+		mActionBar.setDisplayUseLogoEnabled(useLogo);
 
 		prepareListData();
 
