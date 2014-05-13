@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -16,6 +17,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends SherlockFragmentActivity
@@ -23,16 +25,16 @@ public class MainActivity extends SherlockFragmentActivity
 	private boolean useLogo = false;
 	private boolean showHomeUp = false;
 	private RssFragment mFragment;
+	public static MenuItem refresh;
 	private Intent mIntent;
 	private List<String> listDataHeader;
 	private HashMap<String, List<String>> listDataChild;
+	private final Handler handler = new Handler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.main);
 
 		final ActionBar ab = getSupportActionBar();
@@ -54,9 +56,24 @@ public class MainActivity extends SherlockFragmentActivity
 		getSupportMenuInflater().inflate(R.menu.main_menu, menu);
 
 		// set up a listener for the refresh item
-		//		final MenuItem refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
+		refresh = (MenuItem) menu.findItem(R.id.menu_refresh);
 		//
-		//		refresh.setOnMenuItemClickListener(this);
+		refresh.setOnMenuItemClickListener(new OnMenuItemClickListener()
+		{
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item)
+			{
+				handler.postDelayed(new Runnable()
+				{
+					public void run()
+					{
+						refresh.setActionView(null);
+					}
+				}, 2000);
+				return false;
+			}
+		});
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -84,6 +101,7 @@ public class MainActivity extends SherlockFragmentActivity
 		switch (item.getItemId())
 		{
 			case R.id.menu_refresh:
+				item.setActionView(R.layout.indeterminate_progress_action);
 				if (Constants.internetConnectionEnabled(this))
 					new GetDataTask().execute();
 				else
@@ -110,11 +128,11 @@ public class MainActivity extends SherlockFragmentActivity
 					});
 					dialog.show();
 				}
-				break;
+				return true;
 			case R.id.menu_option_about_us:
-				if(mFragment != null)
+				if (mFragment != null)
 					mFragment.showAboutUS(this);
-				break;
+				return true;
 			case R.id.menu_option_salir:
 				finish();
 				break;
@@ -122,7 +140,7 @@ public class MainActivity extends SherlockFragmentActivity
 				item.collapseActionView();
 				if (mFragment != null)
 					mFragment.showFilter(this);
-				break;
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

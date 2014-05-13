@@ -60,8 +60,8 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	{
 		super.onCreate(savedInstanceState);
 		mDBHelper = new SQLiteHelper(getActivity().getApplicationContext(), "Feed", null, 1);
-		prepareListData();
 		setRetainInstance(true);
+		MainActivity.refresh.setEnabled(false);
 	}
 
 	@Override
@@ -139,6 +139,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 				mIntent = new Intent(getActivity(), RssService.class);
 			mIntent.putExtra(RssService.RECEIVER, resultReceiver);
 			getActivity().startService(mIntent);
+			MainActivity.refresh.setEnabled(true);
 		}
 		else
 		{
@@ -146,7 +147,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 			mAllItems = mDBHelper.getValues();
 			if (mAllItems != null && !mAllItems.isEmpty())
 			{
-
 				RssAdapter adapter = new RssAdapter(getActivity(), mAllItems);
 				mListView.setAdapter(adapter);
 			}
@@ -173,6 +173,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 					}
 				});
 				dialog.show();
+				MainActivity.refresh.setEnabled(true);
 			}
 
 		}
@@ -180,10 +181,12 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 
 	public void reloadService(Intent i)
 	{
+		MainActivity.refresh.setEnabled(false);
 		if (i != null)
 			getActivity().stopService(i);
 		startService();
-		mSplashScreen.setVisibility(View.GONE);
+		if(mSplashScreen.getVisibility() != View.GONE)
+			mSplashScreen.setVisibility(View.GONE);
 	}
 
 	/**
@@ -267,6 +270,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	
 	public void showAboutUS(Context context)
 	{
+		prepareListData();
 		ExpandibleListViewAdapter listAdapter = new ExpandibleListViewAdapter(context, listDataHeader, listDataChild);
 		final Dialog dialog = new Dialog(context);
 		dialog.dismiss();

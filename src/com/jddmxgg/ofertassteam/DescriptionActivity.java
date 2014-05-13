@@ -21,7 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -63,6 +66,9 @@ public class DescriptionActivity extends SherlockActivity implements OnClickList
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.description_layout);
+		
+		final ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
 
 		tvTitle = (TextView) findViewById(R.id.descriptionTitle);
 		tvDescription = (TextView) findViewById(R.id.itemDescription);
@@ -117,6 +123,24 @@ public class DescriptionActivity extends SherlockActivity implements OnClickList
 		btnGoToPage.setOnClickListener(this);
 		mFadeOut.setAnimationListener(this);
 		mFadeIn.setAnimationListener(this);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

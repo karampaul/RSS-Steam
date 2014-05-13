@@ -38,7 +38,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.jddmxgg.ofertassteam.MainActivity" />
         </activity>
         
         <activity
