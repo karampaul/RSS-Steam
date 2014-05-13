@@ -121,6 +121,7 @@ public class MainActivity extends SherlockFragmentActivity
 			case R.id.menu_option_about_us:
 				ExpandibleListViewAdapter listAdapter = new ExpandibleListViewAdapter(this, listDataHeader, listDataChild);
 				final Dialog dialog = new Dialog(this);
+				dialog.dismiss();
 				dialog.setContentView(R.layout.about_us);
 				dialog.setTitle(getResources().getString(R.string.app_name));
 				Button exit = (Button) dialog.findViewById(R.id.btn_about_us);

@@ -232,7 +232,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		dialog.dismiss();
 		dialog.setContentView(R.layout.filter);
 		dialog.setTitle(getActivity().getResources().getString(R.string.filter));
-		dialog.setCancelable(false);
+		//dialog.setCancelable(false);
 
 		mVayaAnsias = (CheckBox) dialog.findViewById(R.id.ch_vayaansias);
 		mHuntgames = (CheckBox) dialog.findViewById(R.id.ch_huntgames);
