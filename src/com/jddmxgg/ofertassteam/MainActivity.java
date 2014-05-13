@@ -1,9 +1,5 @@
 package com.jddmxgg.ofertassteam;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,8 +24,6 @@ public class MainActivity extends SherlockFragmentActivity
 	public static MenuItem refresh;
 	public static ActionBar mActionBar;
 	private Intent mIntent;
-	private List<String> listDataHeader;
-	private HashMap<String, List<String>> listDataChild;
 	private final Handler handler = new Handler();
 	
 	@Override
@@ -43,8 +37,6 @@ public class MainActivity extends SherlockFragmentActivity
 		// set defaults for logo & home up
 		mActionBar.setDisplayHomeAsUpEnabled(showHomeUp);
 		mActionBar.setDisplayUseLogoEnabled(useLogo);
-
-		prepareListData();
 
 		if (savedInstanceState == null)
 			addRssFragment();
@@ -131,8 +123,8 @@ public class MainActivity extends SherlockFragmentActivity
 				}
 				return true;
 			case R.id.menu_option_about_us:
-				if (mFragment != null)
-					mFragment.showAboutUS(this);
+				Intent i = new Intent(this, AboutUsActivity.class);
+				startActivity(i);
 				return true;
 			case R.id.menu_option_salir:
 				finish();
@@ -165,23 +157,5 @@ public class MainActivity extends SherlockFragmentActivity
 		}
 	}
 
-	private void prepareListData()
-	{
-		listDataHeader = new ArrayList<String>();
-		listDataChild = new HashMap<String, List<String>>();
-
-		// Adding child data
-		listDataHeader.add(getResources().getString(R.string.jedelwey));
-		listDataHeader.add(getResources().getString(R.string.skillath));
-
-		// Adding child data
-		List<String> jedel = new ArrayList<String>();
-		jedel.add(getResources().getString(R.string.elpreciodelaluz));
-
-		List<String> skillath = new ArrayList<String>();
-		skillath.add(getResources().getString(R.string.SupersonicFingers));
-
-		listDataChild.put(listDataHeader.get(0), jedel); // Header, Child data
-		listDataChild.put(listDataHeader.get(1), skillath);
-	}
+	
 }

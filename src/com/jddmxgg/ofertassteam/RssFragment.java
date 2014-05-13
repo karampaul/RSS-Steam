@@ -1,7 +1,6 @@
 package com.jddmxgg.ofertassteam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -11,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -28,8 +26,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -52,8 +48,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	private Animation mAnimation;
 	private CheckBox mOfertasDeUnPanda, mVayaAnsias, mSteamOfertas, mHuntgames;
 	private List<RssItem> mAllItems;
-	private List<String> listDataHeader;
-	private HashMap<String, List<String>> listDataChild;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -268,77 +262,6 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		});
 
 		dialog.show();
-	}
-	
-	public void showAboutUS(Context context)
-	{
-		prepareListData();
-		ExpandibleListViewAdapter listAdapter = new ExpandibleListViewAdapter(context, listDataHeader, listDataChild);
-		final Dialog dialog = new Dialog(context);
-		dialog.dismiss();
-		dialog.setContentView(R.layout.about_us);
-		dialog.setTitle(getResources().getString(R.string.app_name));
-		Button exit = (Button) dialog.findViewById(R.id.btn_about_us);
-		ExpandableListView lv = (ExpandableListView) dialog.findViewById(R.id.expandableListView);
-		lv.setAdapter(listAdapter);
-
-		lv.setOnChildClickListener(new OnChildClickListener()
-		{
-
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
-			{
-				final String jedel = "com.iniris.preciodelaluz";
-				final String skillath = "com.skillath.supersonicfingers";// getPackageName() from Context or Activity object
-				try
-				{
-					if (groupPosition == 0)
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + jedel)));
-					else
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + skillath)));
-				}
-				catch (android.content.ActivityNotFoundException anfe)
-				{
-					if (groupPosition == 0)
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + jedel)));
-					else
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + skillath)));
-				}
-				return false;
-			}
-		});
-
-		exit.setOnClickListener(new OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
-	}
-	
-	private void prepareListData()
-	{
-		listDataHeader = new ArrayList<String>();
-		listDataChild = new HashMap<String, List<String>>();
-
-		// Adding child data
-		listDataHeader.add(getResources().getString(R.string.jedelwey));
-		listDataHeader.add(getResources().getString(R.string.skillath));
-
-		// Adding child data
-		List<String> jedel = new ArrayList<String>();
-		jedel.add(getResources().getString(R.string.elpreciodelaluz));
-
-		List<String> skillath = new ArrayList<String>();
-		skillath.add(getResources().getString(R.string.SupersonicFingers));
-
-		listDataChild.put(listDataHeader.get(0), jedel); // Header, Child data
-		listDataChild.put(listDataHeader.get(1), skillath);
 	}
 
 	public void filter(boolean vayaansias, boolean huntgames, boolean ofertasdeunpanda, boolean steamofertas)

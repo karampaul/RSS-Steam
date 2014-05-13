@@ -42,6 +42,16 @@
         </activity>
         
         <activity
+            android:name=".AboutUsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AndroidDevelopers" 
+            android:configChanges="keyboardHidden|orientation|screenSize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jddmxgg.ofertassteam.MainActivity" />
+        </activity>
+        
+        <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
