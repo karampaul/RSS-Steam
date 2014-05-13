@@ -229,6 +229,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 	public void showFilter(Context context)
 	{
 		final Dialog dialog = new Dialog(context);
+		dialog.dismiss();
 		dialog.setContentView(R.layout.filter);
 		dialog.setTitle(getActivity().getResources().getString(R.string.filter));
 		dialog.setCancelable(false);
