@@ -84,7 +84,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		if (mView == null)
 		{
 			mView = inflater.inflate(R.layout.fragment_layout, container, false);
-			
+
 			mListView = (ListView) mView.findViewById(R.id.listView);
 			mSplashScreen = (LinearLayout) mView.findViewById(R.id.splashScreen);
 			mAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
@@ -138,7 +138,8 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		}
 		else
 		{
-			mSplashScreen.startAnimation(mAnimation);
+			if (mSplashScreen.getVisibility() != View.GONE)
+				mSplashScreen.startAnimation(mAnimation);
 			mAllItems = mDBHelper.getValues();
 			if (mAllItems != null && !mAllItems.isEmpty())
 			{
@@ -178,7 +179,7 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		if (i != null)
 			getActivity().stopService(i);
 		startService();
-		if(mSplashScreen.getVisibility() != View.GONE)
+		if (mSplashScreen.getVisibility() != View.GONE)
 		{
 			MainActivity.mActionBar.show();
 			mSplashScreen.setVisibility(View.GONE);
@@ -195,7 +196,8 @@ public class RssFragment extends SherlockFragment implements OnItemClickListener
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData)
 		{
-			mSplashScreen.startAnimation(mAnimation);
+			if (mSplashScreen.getVisibility() != View.GONE)
+				mSplashScreen.startAnimation(mAnimation);
 			mAllItems = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
 			if (mAllItems != null)
 			{
