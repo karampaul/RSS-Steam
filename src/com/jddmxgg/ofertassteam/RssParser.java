@@ -85,7 +85,7 @@ public class RssParser
 			if (title != null && link != null && description != null)
 			{
 				// Aqui habrí que mirar de meter vayaansias y ofertas de un panda.
-				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("-=VayaAnsias=-"))
+				if (!title.equals("Huntgames.es") && !title.equals("SteamOfertas") && !title.equals("Ofertas de un Panda") && !title.equals("VayaAnsias - Ofertas de Videojuegos de PC"))
 				{
 					RssItem item = new RssItem(title, link, description, month, day, null);
 					items.add(item);

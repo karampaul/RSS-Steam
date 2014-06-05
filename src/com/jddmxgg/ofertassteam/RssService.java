@@ -133,7 +133,7 @@ public class RssService extends IntentService
 		public int compare(RssItem item1, RssItem item2)
 		{
 			Integer value1 = Integer.valueOf(item1.getDay());
-			Integer value2 = Integer.valueOf(item2.getDay());
+			Integer value2 = Integer.valueOf(item2.getDay());		
 			return value1.compareTo(value2);
 		}
 	}
